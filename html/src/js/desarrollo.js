@@ -1,0 +1,6 @@
+const des = {
+
+    init:function(){
+
+    }
+}

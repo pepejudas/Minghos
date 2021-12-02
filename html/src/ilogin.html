@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Minghos</title>
+  </head>
+  <link rel="stylesheet" href="/css/style1.css">
+  <link rel="icon" href="images/favicon.ico">
+  <script type="text/javascript" src="/js/frameworkm.js"></script>
+  <body>
+    <div class='logocontainer'>
+      <img src='images/logo.gif' width='30px'>
+      <h1>Minghos</h1>
+    </div>
+    <div class="container">
+      <form action='login' method='POST'>
+	<div class='login'>
+	  <div><select name='languaje' id='languaje'><option value='es' selected='selected'>Espa&ntilde;ol</option><option value='en'>English</option><option value='fr'>Francais</option><option value='pr'>Portugues</option></select></div></br>
+	  <div id='contenedor'>
+	    <input name='user' type='text' id='user' style='padding:10px' autofocus  required /><br/>
+	    <input name='password' type='password' id='password' style='padding:10px' required /><br/>
+	  </div>
+	  <span id='divcaptcha'></span><input type='text' id='captchans'  style='padding:10px' value='' required /></br>
+	  <input type='submit' value='Login' id='loginbutton' disabled='disabled'/>
+	  <div id='login2'></div>
+	  <br/>
+	  <div id='forgpass'></div>
+	</div>
+      </form>
+    </div>
+    <script type="text/javascript" src="/js/captcha.js"></script>
+    <script type="text/javascript" src="/js/ilogin.js"></script>
+  </body>
+</html>

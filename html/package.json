@@ -1,0 +1,36 @@
+{
+    "name": "minghos",
+    "version": "1.0.0",
+    "description": "app for clinical purposes",
+    "main": "app.js",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "express-session": "^1.17.0",
+        "fs": "*",
+        "html-pdf-node": "^1.0.7",
+        "jasmine": "^3.4.0",
+        "mongodb": "^3.6.6",
+        "nodemailer": "^6.4.6",
+        "pg": "^8.6.0",
+        "properties-reader": "^0.0.16",
+        "sessionstore": "^0.4.8",
+        "twilio": "^3.55.0",
+        "websocket": "^1.0.33",
+        "ws": "^7.4.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    },
+    "scripts": {
+        "start": "node src/app.js",
+        "dev": "nodemon --watch src src/app.js",
+        "msg": "node src/msgserver.js",
+        "chat": "nodemon --watch src src/chatserver.js",
+        "func": "node src/__testFunctions.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Pablo Neruda",
+    "license": "MIT"
+}

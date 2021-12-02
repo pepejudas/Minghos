@@ -1,0 +1,535 @@
+plicacion de laboratorio MINGHOS (Modelo Integrado de Gestion Hospitalaria)
+
+Objetivo Primario:
+
+0.	 Lograr un software que permita regenerar las conexiones entre el cerebro y el corazon, para conseguir que el ser humano desarrolle a plenitud su capacidad creadora.
+1.	 Tomar lecciones de los eventos pasados y la experiencia en labware, nunca jamas por ninguna razon dar sobornos a nadie ni prometer dinero a alguien externo a la empresa sino competir en franca lid con los demas proponentes de software, asi se pierdan oportunidades persistir usando la misma estrategia. 
+	 Lograr un software de calidad tan perfecta que pueda ser usado en Procaps donde hemos trabajado mi papa y yo, este sistema debera ser usado reemplazando SAP y LabwareLIMS, por un sistema mas eficiente moderno potente rapido y efectivo, que reduzca costos hasta minimos solo teoricamente posibles, para lograr este objetivo debera crearse un sistema pequeno pero irlo creciendo a medida que multiples clientes medianos y pequenos hagan sus requerimientos hasta que se logre la calidad/funcionalidad requerida, ir expandiendo la funcionalidad para abarcar el area de laboratorio/clinico en el pais y latinoamerica.
+	
+Objetivos Secundarios:
+
+	 La funcionalidad principal dentro del sistema sera el establecer un mecanismo de control visual del proceso en el que cada etapa pueda ser capturada mediante la aplicacion o plugin de tal forma que pueda comprobarse su operacion por simple inspeccion visual pero con todas sus respectivas etapas de proceso.
+	 Ofrecer un mecanismo de inteligencia artificial para el diagnostico de enfermedades, no reemplazando al profesional sino como apoyo en el diagnostico, dependiendo de los datos de sintomas suministrados asi como por los examenes subidos a la plataforma mediante analisis de casos de estudio anteriores, integrar a la api de python junto con el modulo de interconexion de instrumentos (module5).
+	 Permitir utilizar la misma aplicacion en el entorno de dispositivos moviles como celulares tables etc de tal manera que el sistema se adapte al tamano de la pantalla y permita operar de forma razonablemente comoda de acuerdo con el tamano de pantalla del dispositivo.
+
+	 Lista de componentes requeridos:
+	 Componente de Laboratorio:
+	 	    dinamico	estatico
+	 	    sample	sample_template		
+		    test	test_template			
+		    result	result_template				
+	 Componente Clinico
+	 	    modulo de historia clinica
+	 Componente Odontologico
+	 	    modulo de historia clinica odontologica
+	 Componente Veterinario
+	 	    modulo de historia clinica veterinaria
+	 Componente Promocion y prevencion, vacunacion y madres embarazadas
+	 Componente Facturacion y contabilidad
+	 	    proceso de facturacion
+	 Componente de aplicacion que permita efectuar un plan de asignacion optima con el criterio de tiempo minimo a emplear con restriccion de atributos y nivel de servicio, esto para la asignacion de tareas (analisis a realizar con un grupo de muestras), contemplar el codigo que se desarrollo en opencourseware en python para la asignacion de tareas con prioridades a ver si puede ser enlazado, como mecanismo inicial no optimizando sino solo organizando inicialmente de forma logica y secuencial.
+	 Componente de aplicacion que permita la creacion de proyectos (lotes, batches, proyectos, estudios de estabilidad, programas de monitoreo medioambiental, grupo de muestras en general), con la posibilidad de efectuar consultas personalizadas escritas en su totalidad por el usuario en una interfaz intuitiva y simple.
+	 Componente para gestion contable y facturacion para pymes y tambien para grandes empresas tener en cuenta cada click,  en el proceso para garantizar que es posible efectuar un proceso con minimo uso de perifericos (teclado, lector de barras), poner un componente especialmente para esto que haga la facturacion usando lector de barras, debe tomar los codigos buscar en db las referencias, marca, valores, referencias, impuestos etc, para generar la factura de forma automatica y finalmente hacer el cobro, enlazar con	API de bancos, paypal, bitcoin o mecanismos de pago facilitarselo al cliente.
+	 Componente para gestion de localizaciones y pedidos, debe gestionar las ubicaciones de los productos asi como su contenido teniendo en cuenta los limites minimos de stock establecidos para cada uno asi como el mecanismo para tomar los productos, debe establecerse un mecanismo recurente de diagramacion de la localizacion por que esta puede ser compleja por dentro por lo cual se podra dibujar con todos sus componentes internos, usar este mismo mecanismo para las muestras asi como para el inventario.
+	 Componente de microservicios que permita recibir una tanda (proyecto con muestras o batch con muestras y analisis) y permita establecer un plan para realizar las actividades minimizando el tiempo empleado para tal fin, inicialmente aunque sea, solo secuenciar teniendo en cuenta los prerequisitos es decir las tareas que deben ser realizadas previamente a otra, esto debe ser un microservicio que pueda ser llamado a traves de la web para cualquier cliente de laboratorios o el que requiera el servicio, establecer una API sencilla que permita usar el microservicio desde fuera usando unos parametros de login y token correspondientes, usar el script de python creado para este proposito, intentar optimizar el script para hacer que haga la tarea en el menor tiempo posible.
+	 Componente API para conexion entre diferentes sistemas y proveer el microservicio de creacion del plan de ejecucion de las tareas para cumplir con un programa de muestreo o lo que el cliente defina que es su objetivo.
+	 Componente que permita efectuar consultas definir una consulta completamente a partir de parametros seleccionados y definidos por el usuario en una interfaz amigable y lo mas simple posible.
+	 Componente de agenda, este puede servir para multiples usuarios para el agendamiento de citas, veterinarias, consultorios medicos, odontologicos, peluquerias y en general donde se requiera programar la cita para la atencion del usuario o la prestacion del servicio, este componente sera el primero en ser comercializado por tanto debe tener la mejor calidad posible para lograr obtener la mayor cantidad de clientes aun precio muy razonable, identificar los modelos de comercializacion viables:
+	 	    0. la suscripcion sera por usuario concurrente
+	 	    a. suscripcion con pago sin publicidad ni restricciones
+		    b. suscripcion gratuita con publicidad.
+		    c. que haya algunos mecanismos de retribucion diversos como desarrollo, traducciones, documentacion, pruebas, etc, para acceder al servicio como si fuera servicio pagado.
+
+Requerimientos:
+
+	 0. modulo de procesos BPM (Diagramacion de procesos automatico, editor):
+	    0.1 debe tener un modulo de flujo de proceso grafico: debe ser un canvas en html5 que permita seleccionar el proceso almacenado el cual se debe desplegar en modo algoritmo en pantalla y con la opcion de maximizar, este debe contener los accesos directos a los componentes del proceso mediante iconos y de facil acceso para el usuario mostrando el flujo del proceso, al pasar el mouse sobre cada punto debe mostrar un listado de pacientes en cada parte del proceso o alguna forma que permita identificar que se encuentra aun en dicha parte del proceso con lo cual la secuencia nunca se pierde y es mas amigable para el usuario.
+	    0.1 cuando se este usando el proceso, tomar de las decisiones los datos necesarios para establecer estadisticas como en cada rombo se efectua una toma de decision usar esos datos como estadistica para alguna parte del proceso mostrarlo como datos al sobreponer el mouse encima. (indicadores del proceso)
+	    0.2 Agregar estas caracteristicas al proceso grafico:
+	    	0.2.1 que al pasar el mouse sobre la etapa del proceso especifica se despliegue un listado de los elementos que se encuentran en es misma etapa del proceso y que tengan un codigo de colores para poder determinar su estado, para por simple inspeccion visual determinar el estado dentro del flujo de proceso dentro del cual se encuentra cada elemento.
+	 0.2. modulo de gestion de laboratorio:
+	    0.2.1. componente de agrupamiento de muestras, muestras, analisis, resultados. debe permitir generar arboles de forma recurrente usando la misma funcion para descender sobre la estructura de muestra analisis y resultados, es posible usar esta misma funcion para el gestor de localizaciones que permita generar el diagrama de las estructuras complejas con multiples sublocalizaciones y componentes internos de forma eficiente y veloz.
+	    0.2.2. debe permitir el efectuar consultas completamente personalizadas para consultar los grupos de muestras en pantalla, usando bases de datos no estructuradas MongoDB.
+	    0.2.3. debe aprovechar al maximo el espacio en pantalla para poder ver la informacion mas relevante y cerrar lo demas poder trabajar facilmente y de forma comoda.
+	    0.2.4. debe contar con los procesos basicos requeridos en la industria farmaceutica como gestion de lotes de producto, monitoreo medioambiental, estudios de estabilidades y proyectos.
+	    
+	 1. modelo de minimizacion de distancia para asignacion de profesionales a las uri, o profesionales a clinicas, con siguientes caracteristicas:
+	    1.1. opcion para subir matriz con nombre apellidos, documento, direccion y atributos (edad, sexo, experiencia, entrenamiento etc.)
+	    1.2. opcion para ejecutar el calculo de las distancias usando api matrix de google con origen-destino.
+	    1.3. opcion para enviar los parametros a CPLEX o la libreria que se tenga en el momento para optimizacion, para obtener la mejor asignacion con minima distancia total.
+	    1.4. opcion para regresar los resultados optimizados del modelo matematico a la aplicacion y que pueda verse en un formato amigable para el usuario.
+	    1.5. opcion para panel de clientes donde se tenga acceso a las soluciones historicas de sus modelos asi como a las asignaciones optimas historicas.
+	    1.6. establecer una estimacion en cuanto a personas y sus atributos requeridos para balancear la demanda y de esta forma pueda darsele factibilidad inicial a la solucion del modelo.
+	    1.7. establecer el limite de optimizaciones a realizar en un entorno productivo para un cliente.
+	2. Requerimientos para el sistema contable:
+	   2.1 opcion para creacion de ingresos o egresos usando la partida doble para creacion del registro mediante un autosuggest que busque rapidamente la partida correspondiente.
+	   2.2 opcion para crear libros diarios, menor y mayor,
+	   2.3 opcion para creacion de estado de resultados, balance general y balance en cualquier instante de tiempo.
+	   2.4 opcion para generacion de liquidacion de impuestos como renta, iva, ica , retefuente, etc.
+
+	   2.5 Proceso de almacenamiento:
+	   2.5.1 opcion para crear el proceso de almacenamiento.
+	     	 2.5.1.1 panel para creacion de referencias de productos:
+	      	       2.5.1.2	con los siguientes campos: nombre producto, referencia, serie, marca
+		       
+ 	3. Requerimientos de modulo clinico:
+	   Proceso borrador:
+	   	   Admision del paciente,
+		   verificar en la documentacion recopilada para el proceso de historia clinica cuales son los datos requeridos para la admision del paciente asi como el proceso clinico. desde el ingreso hasta la facturacion al finalizar el proceso medico.
+	   3.0 opcion para subir personas, poner opciones para la mayoria de datos relevantes, contenedor de peopleSoft.
+	   3.1 opcion para proceso de admision de pacientes hospitalario, debe contar con las siguientes caracteristicas:
+	       3.1.1 comprobacion de la identidad del paciente como la pulsera identificadora donde se diga su nombre y el codigo de su historia clinica.
+	       3.1.2 proceso de aseo del paciente
+	       3.1.3 proceso de guardado de los elementos del paciente, joyas, protesis y demas objetos que deberan ser dejados en custodia mientras se efectua la atencion hospitalaria.
+	       3.1.4 
+	   3.2. opcion para relacionar pacientes con personas.
+	   3.3. opcion para subir medicos relacionar con personas.
+	   3.4. opcion para subir datos de consulta externa.
+	      3.4.1 subir los datos de los examenes solicitados con sus respectivos resultados asociados a la consulta o diagnostico
+	      3.4.2 subir los datos del cie10 para poder establecer los diagnosticos de los medicos
+	      3.4.3 subir los datos de los medicamentos vademecum, para relacionarlos con el proceso de diagnostico
+	   3.5. opcion para calendario de citas medicas
+	   3.6. opcion para proceso de facturacion de los servicios medicos
+	   3.7. calendario de establecimiento de citas para pacientes y especialistas, debe ser un calendario sencillo que aproveche toda la pantalla para ver el calendario de citas por mes y por semana, filtrando por especialidades por medico por paciente etc.. opcion para efectuar la programacion de los medicos disponibles.
+	   3.8 opcion para guardar datos de procesos de prevencion y promocion.
+	   3.9 requerimientos para modulo urgencias:
+	   3.9.1 debe permitir la admision de paciente con informacion generica incluso sin informacion para la atencion del usuario, es posible que lleguen personas indocumentadas para ingresar al proceso de urgencias y deben ser atendidos adecuadamente aun sin estos requerimientos por parte de los profesionales medicos.
+	   3.10 el componente de historia clinica debe contener toda la informacion relacionada con el paciente definida anteriormente, junto con todos sus diagnosticos examentes, cirugias, documentos de imagenologia, etc.
+	   3.11 procesos de apoyo en el modulo clinico:
+	       3.11.1 laboratorio, farmacia, imageneologia-RayosX, Ecografias, Electrocardiogramas.
+	       3.11.2 facturacion, tesoreria, contabilidad, recursos humanos, nomina, servicios generales, mantenimiento, celaduria, aseo, ornato 
+	4. Opcion para modulo odontologico:
+	   4.0. (efectuado) opcion para subir personas como en caso clinico
+	   4.1. (efectuado - se agrego un autosuggest para vincular con la persona) opcion para relacionar con pacientes como en caso clinico.
+	   4.2. (efectuado) opcion para subir odontologos o especialistas.
+	   4.3. (efectuado) usar el mismo componente de calendario de establecimiento de citas para pacientes y especialistas.
+	   4.4. tener en cuenta todos los insumos y medicamentos gastados durante los procedimientos asi como costos fijos para el proceso de facturacion de los servicios odontologicos.
+	   4.5. (efectuado - odontograma) debe permitir crear historia clinica para cada individuo dependiendo de si es nino, adulto, adolescente, basado en una plantilla donde se permita agregar cada cara de cada diente con opcion para poner poner tratamiento en cada lado de cada diente con terminologia odontologica.
+	   4.6. revisar el tema de instrumentacion para almacenamiento e inventario de instrumentacion de tratamiento.
+	   4.7. opciones para facturacion de los servicios prestados y suministros gastados durante los tratamientos efectuados
+	5. Requerimientos para modulo de toma de informacion (M5 python):
+	   5.1 El sistema debe estar en capacidad de capturar de instrumentos o software informacion relacionada con el paciente o con cualquier parte del proceso
+	       5.1.1 para la captura de informacion desde archivos el sistema debe contar con un panel de generacion de scripts que permita aplicarlo sobre el archivo generado por el instrumento o software a capturar y sobre este tome la informacion relevante.
+	       5.1.2 para la captura de informacion directa tambien puede aplicarse el script que permita establecer los datos que sean relevantes para el sistema.
+	   5.2 debe permitir la captura de informacion de dos formas una que sea de archivos y la otra conexion directa mediante un mecanismo serial o algo parecido, para esto puede usarse un applet o plugin en java que permita comunicacion entre la aplicacion y el servidor web.
+	   5.3 opcion de ejecucion periodica de procesos esto unido con el calendario o programador que permita automatizar dentro de la aplicacion la ejecucion de algun proceso.
+	6. opcion de plan institucional de archivo:
+	   6.0 debe permitir la creacion de los sitios de almacenamiento en formato digital de forma estructurada o no estructurada para almacenamiento de cualquier tipo de objeto asi como su descargue en el momento de uso y facturacion.
+	   6.1 debe permitir el proceso de inventario de los archivos fisicos relacionados, opciones de objetos de almacenamiento asi como el inventario de cada uno de ellos relacionados con la funcion clinica de consulta medica.
+	   6.2 (prioritario) debe permitir la subida de cualquier clase de documento necesario para el diagnostico medico tal como imageneologia, radiografias, imagenes, archivos etc.
+	7. hacer un componente de chat (ya)
+	   7.1 (efectuado) envia mensajes usando un websocket, funciona con todos los usuarios de la plataforma lo cual puede llegar a ser inconveniente deberia agregarse una forma de filtrar a que usuario se le permite la comunicacion) que sirva para enviarse mensajes entre usuarios de la aplicacion y mantenerse comunicado mas failmente aunque se este metido en el trabajo sin que sea logueado debe ser privada la comunicacion.
+	8. tener en cuenta un componente de almacenamiento o archivistica que permita relacionar el archivo de documentos medicos fisicos, con el archivo en el sistema, seria como un repositorio de archivos de dos tipos uno seria con el almacenamiento total del archivo en base de datos y el otro seria almacenando unicamente la url del documento de donde se encuentre en la maquina que lo comparta.
+	9. agregar un componente de pruebas automatizadas de software (usar el framework de jasmine) que permitan usando un set de datos aleatorios efectuar pruebas de la interfaz y que generen resultados estadisticamente significativos (que generen una matriz de datos con los resultados esperados vs resultados obtenidos e indicadores de cumplimiento usando aleatorios para probar al inicio del proceso definir que nivel de profundidad de las pruebas se requiere indicando que con el 100% deben efectuarse todas las pruebas con menos usar aleatorios para probar solo algunas partes del proceso).
+	   9.1 este debe contar con un subcomponente que permita la grabacion de las actividades dentro del sistema y asi mismo que permita replicar dicho script paso a paso en su ejecucion.
+	10. Para el componente de facturacion y contabilidad ingresar todos las cuentas del Plan Unico de Cuentas y crear un autosuggest que permita agregar facilmente la cuenta y hacer la afectacion de partida doble para realizar los estados de cuentas.
+	11. Agregar inteligencia artificial a algunos componentes del sistema como analisis de imageneologia para la deteccion temprana del cancer o algo parecido que no se tenga en sistemas en la actualidad
+	12. Agregar un componente estadistico que permita realizar analisis de los datos generados y prevenir posibles brotes de contagio o hacer algunas predicciones basadas en datos estadisticos.
+		   12.1 en el componente ponerle algunas opciones para predicciones o pronosticos basados en los casos recibidos y asi mismo contemplar las posibilidades de atencion medica ante emergencias de pandemias virus, bacterias y armas quimicas.
+	13. Generar un modulo para ambulancias que permita realizar servicios de la forma mas eficiente posible minima distancia o establececimieno de rutas asignacion de urgencias o recogidas de pacientes.
+	14. (en proceso) Agregar un modulo de flujos de trabajo visuales que permita establecer los procesos graficamente y poder seguirlos usando vinculos a componentes de informacion del propio sistema.
+	15. (prioritario) Se requiere un mecanismo de exportacion/importacion de registros a diferentes entornos dado que se tendran minimo 3 entornos para el proceso de desarrollo del software, DEV desarrollo, QUA calidad y PRD produccion, entonces la herramienta debe contar con la posibilidad de migrar objetos estaticos o dinamicos desde/hacia distintos sistemas, usando formato JSON.
+	16. (en proceso) desarrollar dentro del framework de javascript un metacomponente que sirva para multiusos de grid este debe contener funcionalidad basica como numero dinamico de filas/columnas posibilidad de ordenar por cualquier columna, y un buscador sencillo que filtre los resultados en pantalla del array en memoria. de la misma forma desarrollar otros componentes requeridos como graficos, que sean rehusables o usar una libreria comercial para este proposito.
+	17. (usar herramientas del navegador) desarrollar un entorno de programacion dentro del navegador mismo que permita generar el codigo y las formulas necesarias para la ejecucion del sistema, este debe contener un depurador paso a paso, un verificador de sintaxis y botones para ejecucion del codigo.
+	18. modulo para veterinario:
+	    18.1 debe contener todas las opciones necesarias para gestionar la historia veterinaria del animal asi como su historial en documentacion a subir ejemplo, carnet de vacunas, tag de registro, documento de propiedad, carnet de propietario, etc, todos estos documentos deben ser anexos al registro del animal.
+	    18.2 debe permitir gestionar la consulta externa del paciente guardar todos los datos de diagnostico asi como lo medicamentos formulados por el especialista, cie10 veterinario asi como el vademecum veterinario.
+	19. modulo de tiempos y movimientos de ingenieria industrial, dentro de los procesos tomar los tiempos de inicio, finalizacion y de cada etapa de proceso para de esta forma hacer estimaciones de los tiempos estandar, sacar los tiempos para hacer los modelos de optimizacion de procesos, calculos de capacidades, asi como tambien estadisticas de cada una de las operaciones cuanto se tardan, cuanto es el tiempo estandar mas los suplementos, hacer un listado de estadisticas que permitan hacer los estimadores, tambien tomar los tiempos entre cada operacion para poder hacer los estudios de tiempos y sacas las estadisticas correspondientes en cada etapa del proceso y de esta forma optimizar los procesos, establecer una metodologia para estimar los tiempos de procesamiento usando series de tiempo y pronosticos con machine learning para determinar cuando un cliente envia la solicitud un nivel de servicio que indique cual seria el tiempo estimado en entregar el resultado del proceso de analisis, este modulo puede servir para laoratorios de contratos o demas.
+	     19.1 es posible hace un modulo usando las bases de datos de labware que sirva unicamente para labware usando los campos de muestras, estimar cuanto se tardan las muestras por analista, por analisis, con estacionalidad.
+	     19.2 crear scripts en el modulo5 para analizar la base de datos de labware y determinar los analistas que deben ser entrenados y en que metodos. analizando los tiempos de las muestras.
+	     19.3 crear scripts en modulo5 para analizar la tabla de resultados encontrando estadisticos que permitan establecer que tan en control se encuentran los procesos usando datos estadisticos para determinarlo.
+	     19.4 tomar los tiempos de los cambios de estado de las citas para calcular tiempos entre el estado programado hasta el notificado y hacer graficos de cuanto tarda el proceso.
+	20. Precargar el sistema con procesos relacionados con normas existentes, por ejemplo si se va a comercializar a una empresa de alimentos precargar los procesos relacionados con las normas de manejo de alimentos tambien con las normas 17025 y de esta forma sea mas apropiado el sistema para su implementacion en dicha area, hacer plantillas teniendo en cuenta el sector de la empresa para mostrar los respectivos procesos precargados. normas de calidad de gestion de seguridad. de entrenamiento etc.
+	21. Establecer un mecanismo para agregar privilegios por proceso y por cada item con esto que los roles de usuario puedan acceder o no a cierta funcionalidad, tambien reflejar este mecanismo en cada formulario para poder restringir o dar permisos en cada uo de los items de procesos establecidos en los diagramas.
+	    a. establecer un mecanismo de identificacion del elemento como por ejemplo: formname_idlink, para relacionar en la tabla de privilegios.
+	    b. establecer una tabla donde se indiquen los componentes disponibles en el sistema con una numeracion relacionada a cada vinculo en el frontend.
+	    c. establecer una tabla donde se relacionen los componentes con los permisos que tiene cada rol dentro del sistema para acceder a cada componente o funcionalidad enfocado a eventos.
+	    d. (en proceso con system.js) enviar al frontend una matriz con los permisos del usuario, para poder consultar cada componente con su respectivo permiso identificar cada link dentro del frontend con una etiqueta para este proposito y verificarla contra los permisos al hacer click.
+	    e. crear una funcion en js que al hacer click, en el controller verifique la matriz de permisos y sus asignaciones y si no se tiene enviar un mensaje a la consola del navegador.
+	    f. al momento de crear un rol de usuarios, definir cada uno de los permisos para cada link del tipo 0.1.2    
+	22. (efectuado) mecanismo para traduccion multiple a cualquier idioma en un tiempo razonable en el frontend, se ha agregado un soporte para tags del tipo {{clave}} con una entrada en un array dentro del archivo de traduccion.idioma de forma recurrente, junto con el campo dl de postgres para el usuario determina el idioma en que sera ofrecida la aplacion, traduce los textos usando cada array correspondiente al idioma seleccionado.
+	23. agregar un mecanismo de inteligencia artificial que sea capaz de analizar los datos de pacientes anteriores para ofrecer un diagnostico potencial como apoyo para el diagnostico medico, este mecanismo puede estar integrado con el plugin de conexion a instrumentos que permite la conexion a distintos sistemas usar tensorflow desde M5 python.
+	24. (efectuado - requiere un panel adicional para enviar SMS especificos o usar la interfaz desarrollada para envio masivo) Integrar la funcionalidad desarrollada para envio de mensajes SMS en caso que los usuarios quieran agregar alguna alerta por telefono, por alguna razon.
+	25. (efectuado - creado un servicio) Permitir que esta funcionalidad sea usada de forma automatica por el usuario en cualquier parte del sistema agregando un registro que se active al momento de coincidir la fecha de envio con la fecha actual del servidor:
+	    25.0 Permitir al menos estos tipos de mensajes:
+	    	 a. (efectuado) mensaje por SMS.
+	    	 b. (efectuado) mensaje por email.
+		 c. (efectuado) mensaje por whatsapp.
+		 d. (efectuado) mensaje por chat.
+	    25.(efectuado - se revisa la funcion y parece que opera correctamente dejando la evidencia con al callback de los envios de correos exitosos) funcionalidad del sistema, un servidor de mensajes para SMS email y whatsapp que permita enviar, revisando cada minuto lo que ha sido programado, este deja un registro de evidencia en la coleccion d_comsent cada vez que envia algo al usuario puede usarse para servicio generico de envio de alertas en caso de requerirse, falta verificar porque esta enviando a la base de datos incorrecta el registro de envio, revisar funcion.
+	26. Agregar un componente que permita establecer como se completa cada etapa del proceso, puede estar vinculado a un cambio de un campo como el estado de un objeto o completar un formulario, tambien el tomar informacion del M5 o puede ser el consumir un servicio, permitir cualquiera de esas opciones para el cambio de estado del objeto relacionado.
+	27. (efectuado) durante el proceso de registro la creacion de una copia de la base de datos en mongodb y el ingreso de registros de usuario en postgres donde se guarda la informacion de login y base de datos del sistema agregar el nombre de la base de datos en postgres para cuando se inicie el sistema, al registrarse el usuario se cargue dicho nombre, con eso puede ser dinamico y asi cada usuario puede tener una base de datos diferente.
+	28. (efectuado - es necesario probarlo) agregar la funcionalidad de bases de datos separadas con lo cual no es posible la mezcla de informacion de distintas cuantas de usuario, agregar la funcionalidad de grupos de seguridad para que internamente cada cliente pueda separar la informacion y asi se consulte unicamente lo requerido, agregar una opcion para usar grupos de seguridad en la informacion necesario para cuando la aplicacion vaya creciendo y en implementaciones de grandes industrias diferenciar la informacion consultada, agregar la opcion por defecto, grupos por cada usuario.
+	29. Agregar la opcion de roles que puedan ser configurados los usuarios a traves de estas plantillas y asi reusar la configuracion en multiples usuarios.
+	30. Adoptar algun estandar para nombrar los divs dentro de la configuracion de formularios que de continuidad y logica.
+	31. (efectuado) buscar una forma de agregar dinamicamente los contenedores y usar una notacion en el lado de mongodb par hacerlo mas flexible y dinamico, el toolbar el grid el form1 y el menu
+	32. (efectuado - parcialmente) Modificar la forma de hacer el diagrama usando mejor la pantalla hacia los lados que es donde se tiene mas espacio y usando la funcion de beizer que hace las uniones mas suaves entre los componentes.
+	33. Agregar un mecanismo de reportes con las siguientes caracteristicas generales:
+	    a. (efectuado - el usario puede modificar el texto y los campos incluidos en cada reporte usando un campo de texto directamente de la coleccion de reportes) que el usuario pueda editar y crear sus reportes propios en un editor html5 exportable a pdf y html:
+	       a.1 (efectuado - usando un textarea con la misma funcionalidad de formularios) Un mecanismo como un div editable que permita crear un documento en formato HTML mezclando la base de datos con el documento parecido a como se hizo anteriormente en el sistema infotech de tal manera que el usuario tenga control total sobre los reportes que salen del sistema y su formato.
+	       a.2 Definir por defecto multiples reportes del sistema con indicadores graficos y demas mecanismos que simplifiquen la obtencion de informacion para la toma de decisiones.
+	       a.3 (efectuado - el reporte soporta formato html con lo cual en teoria soporta mucha flexibilidad falta probar usando un reporte bien estructurado con tablas pie de paginas formato parrafos negritas etc) Permitir al usuario agregar a los formatos imagenes y agregar las opciones basicas de formato como negrita cursiva paragraph etc. solamente lo basico para generar el reporte, que sea simplista pero potente en cuanto a que pueda agregar todos los reportes que se deseen de forma dinamica.
+	       a.4 Agregar un mecanismo de diagramacion con los siguientes capacidades basicas, creacion de graficas de barras, graficas circulares, graficas de area, de lineas, de burbujas, de red etc, que permitan definir los datos dinamicamente usnado el canvas y html5 exportar pdf de forma dinamica.
+	    b. que el usuario pueda firmar los documentos usando su contrasena agregada como opcion de firma con encriptacion RSA como la codificacion de sesiones, distinta de la de login.
+	    c. (prioritario) que el usuario pueda mezclar no solo campos directos de la base de datos como en infotech sino que pueda agregar tablas enteras usando algun mecanismo de consulta para cada tabla y de esta manera hacer muy flexible el generador de reportes.
+	    d. (efectuado - el microservicio de reportes permite la exportacion de html a pdf y se esta usando una unica libreria de nodejs para esto) todos los reportes sacarlos del generador de tal manera que el usuario tenga la posibilidad de crearlos de forma autonoma usando html5 y exportando directo a PDF, si es posible obviar el uso de librerias externas.   
+	 34. (prioritario) Agregar una funcionalidad de gestion de tareas. con tres opciones, vista de proyectos es decir tareas sucesivas en grafico, vista de kanban con tres o cuatro columnas con cuadritos por cada actividad que se va pasando de un lado a otro al momento de avanzar en su estado,
+	 35. (efectuado - agregar muchas mas preguntas para mayor aleatoriedad) crear un mecanismo simple que permita hacer preguntas con respuestas matematicas para evitar el tema de las traducciones a distintos idiomas, captcha sencillo con respuestas deberia ser un objeto json que contenga una pregunta simple como una operacion matematica que pueda resolver una persona pero que para una maquina sea dificil con su respectivas respuestas para poner como verificacion antes de enviar los parametros de conexion por correo y tambien para el proceso de login de usuario.
+	 36. (efectuado) iniciamente solo sirve en la consola, Agregar una linea de descripcion a las funciones de tal manera puedan ser agrupadas por algun mecanismo automatico para generar la documentacion del proyecto asi como los parametros que recibe y que exporta cada una de las funciones, de esta manera crear una especie de javadoc para que sirva de guia al equipo de desarrollo al momento de usar las funciones.
+	 37. (requerimiento duplicado) poner en el proceso el listado de registros que van en cada una de las etapas con posibilidad de filtrar
+	 38. (efectuado) pero hace falta enviar mensaje al frontend al menos registrar en la consola js, una verificacion para evitar creacion de una misma cita con los mismos parametros, es decir con la misma persona/paciente especialista/profesional a la misma hora el mismo dia
+	 39. (efectuado - para xsite y poner como producto minghos) Crear una pagina de landing para indicar a los clientes el servicio en que consiste y cuales son las opciones de pago.
+	 40. Agregar inicialmente alguna opcion de pago usando un banco consignacion o algo y un chat con el soporte para activar el servicio a los usuarios por un tiempo determinado.
+	 41. (limitaciones de js posiblemente como complemento a M5) Agregar un modo POS que permita facturar usando unicamente el teclado este seria un modo experto, para evitar el mouse y de esta forma que sea muy rapido desde la consola del navegador, que permita hacer toda la funcionalidad basica de forma rapida con atajos de teclado, crear factura, agregar items, imprimir factura etc.
+	 42. Agregar un mecanismo de soporte en chat utilizando inteligencia artificial el cual guie al usuario por el sistema indicando cual es el paso a seguir para realizar determinada tarea, permita generar un paso a paso por el sistema y sirva como primera linea de soporte del producto, usando consultas de preguntas con una base de datos previamente creada de preguntas y respuestas, este mecanismo puede reemplazar la ayuda del sistema indicando paso a paso de procesos importantes para aclaracion a los usuarios.
+ 	 43. (en proceso) agregar un editor que permita modificar el sistema desde un formulario html simple y con sus respectivos permisos para que solo accedan los administradores del sistema.
+	 44. agregar un mecanismo de inteligencia artificial que permita efectuar consulta medica 24x7 en linea usando la informacion de sintomas para tratar de efectuar un diagnostico presuntivo o algo similar para cuando el paciente tiene algun sintoma y no desea aun pedir cita medica o tambien para evitar el congestionamiento de las clinicas y servicios de emergencias, que desde alli se genere la cita medica presencial y demas examenes requeridos para el diagnostico completo del paciente.
+	 45. utilizar procesos de inteligencia artificial en conjunto con ejecuciones automaticas sobre la data para tratar de evaluar posibles riesgos biologicos como epidemias o casos multiples de contagio de virus, bacterias o microorganismos patogenos.
+	 46. recopilar datos de multiples regiones del pais para detectar los mayores riesgos en la salud de las personas y tratar de atacar sus posibles origenes y asi minimizar el uso del servicio medico.
+	 47. notificar a los usuarios del servicio por los medios correspondientes de los riesgos biologicos en la poblacion general.
+	 48. requerimiento: establecer una metodologia de analisis de tiempos que permita determinar si hacen falta analistas dentro del proceso analitico para tener un proceso optimo
+	     a. para este requerimiento usar el analisis de tiempos usando tecnicas de machine learning.
+	     b. usar el mecanismo de python para prueba de hipotesis automatizar
+	     c. usando consultas directas a la base de datos
+	     d. efectuar los procesos de analisis y limpieza de datos extremos usando python
+	     e. calcular los limites de la funcion y asignar valores aleatorios para probar hipotesis automaticamente y asi
+	     f. normalizar los datos para sacar conclusiones acerca de los tiempos de completado y de recepcion de muestra.
+	     g. para este proceso utilizar el script de python utilizado para el trabajo final del curso de data analysis para automatizacion del proceso.
+	 49. (efectuado) efectuar el proceso de validacion de usuario haciendo un request inicialmente al evento onmouseout del control del usuario con eso validar si ya existe y enviar algun mensaje al frontend de tal forma cuando se envie el submit del formulario estar seguros que dicho usuario no exista en base de datos.
+	 50. (efectuado - parcialmente esta en proceso el tema de la activacion de modulos durante el proceso de registro falta terminar de eliminar los menus de modulos no seleccionados para que solo use los que los especificados) crear un instalador del proyecto que despliegue una imagen al inicio y posteriormente inicie el navegador usando la url:puerto apropiada.
+	 51. crear scripts para probar los procesos de envio de mensajes SMS, whatsapp y email de forma automatica.
+	 52. agregar modulo de pruebas automatizadas esto debe ejecutar una simulacion usando aleatorios para probar cada proceso de principio a fin desde el proceso de login hasta la generacion de reportes para al momento de efectuar cualquier cambio en la aplicacion esta pueda ser revalidada usando los mismos scripts y se sepa que estos no interfieren en la funcionalidad previamente desarrollada.
+	 53. (efectuado - hay una consideracion que puede salir asi a produccion pero es necesario solucionar, utilizar la funcion de reemplazo de texto de reportes como ejemplo) poner funcion de reemplazar texto del framework en mensaje de envio de notificacion sms, email y whatsapp, de forma que se pueda configurar en el frontend asi el cliente lo configure a su gusto.
+	 54. enviar un mail de cambio de contrasena en vez de un recordatorio por seguridad para cambiarla directamente, al enviar por correo olvidar contrasena.
+	 55. (efectuado) agregar en el modulo de agenda que cada evento agregado tenga un link el cual abra automaticamente la cita establecida en el formulario usando el controller y el id de la cita
+	 56. agregar al panel de inicio (posteriormente al login en la aplicacion) algunas ayudas para el usuario nuevo como crear registros nuevos en video, como generar agendamiento de citas
+	 57. agregar el id de aplicacion para loguear en gmail en vez de usar user/password para evitar que sea bloqueado el envio de email cada cierto tiempo por inactividad.
+	 58. (efectuado) (prioritario) verificar porque al actualizar la pagina se registra una nueva licencia en db postgres corregir para evitar que un usuario cope todas las licencias de un cliente.
+	 59. (efectuado) agregar orden al efectuar la consulta de las citas programadas usando el campo horacita para cada dia.
+	     59.1 (efectuado - al parecer no se cambio nada) revision de cuando se termina la sesion no libera la licencia
+	 60. (posible funcion para secretaria) agregar una opcion de reportes donde se vea las sumatorias de las notificaciones que han sido enviadas para poder comprobar que no se han sobrepasado los limites del plan contratado y si es el caso enviar una factura adicional al cliente.
+	 61. (efectuado) agregar un resaltador al dia actual para que salga en el calendario de otro color o algo parecido al crear el calendario.
+	 62. (efectuado) revisar cuando se abre el calendario y luego se abre otro link del panel izquierdo no se cierra el calendario debe eliminarse el tag contenedor para que se borre y refresque
+	 63. (efectuado) verificar porque no libera la licencia al salir de la aplicacion, no estaba tomando el parametro orgid para efectuar la consulta apropiadamente.
+	 64. agregar el instanciamiento de la clase de autosuggest a los campos de form cuando se despliega el formulario sin necesidad de instanciar de forma independiente solo usando la definicion del campo en el formulario.
+	 65. (efectuado - pero el problema de inicializar los autosuggest aun persiste) reinicializar los scripts al momento de recargar algun formulario que ya previamente se haya cargado ejecutar nuevamente los metodos de inicializacion en el parametro i
+	 66. (efectuado) verificar al iniciar una sesion usando ingles no se toma para los soguientes formularios el idioma, verificar como se puede pasar el parametro por la sesion.
+	 67. (efectuado) verificar porque al tomar el primero de cada mes esta graficando el mes anterior, corregido por un comportamiento de las fechas de js
+	 68. (efectuado - pero requiere creacion de indices de texto en cada collection sino se genera un error) quitar los campos para seleccionar al efectuar una busqueda mejor efectuar la busqueda de todos los campos y hacer un fulltextsearch
+	 69. (efectuado - esta revision es necesaria para cuando se crean nuevas cuentas de usuario debe crear estos indices de forma automatica durante el proceso de registro o al inicializar la operacion) crear indices de text para hacer fulltextsearch en cada collection que tenga formulario en el frontend
+	 70. (efectuado) revisar la busqueda dentro del calendario por efecto de remover el criterio de busqueda mirar como efectuar la busqueda usando el _id del registro en la colleccion, agregar el id al textid index para activalo a la busqueda tambien con eso deberia ser suficiente
+	 71. limite de tiempo para la puesta en marcha del servicio el (5 de mayo de 2021), servicio basico que cuente con:
+	 
+	     71.0 (efectuado) servicio de registro de nuevos usuarios con duplicacion de base de datos. comprobar que el proceso de registro funciona correctamente envio de correo para confirmacion de cuenta etc.
+	     71.1 (efectuado) agendamiento de citas, usando la agenda, enlaces directos para busquedas mas eficientes, uso de fulltextsearch para busqueda rapida sin campo especifico.
+	     71.2 (efectuado - falta probar mas exhaustivamente el envio de sms) envio de notificaciones de tipo sms, email y whatsapp.
+	     71.3 (efectuado - prioritario 0 requiere probar a profundidad) posibilidad que el usuario cree mas usuarios y asi delegue el proceso de agendamiento de citas de usuarios.
+	     71.4 opcion para que el usuario pueda registrar sus propias collecciones y agregue mas formularios al sistema de forma autonoma.
+	     71.5 (prioritario) opciones basicas de reportes para que el usuario tenga informacion de cuantos mensajes se envian, citas se generan y algunos indicadores basicos.
+	     71.6 (prioritario) encriptacion basica usando https con certificado (comprar), utilizar lets encrypt inicialmente posteriormente comprar un certificado de twathe o verisign
+	     71.7 (prioritario - Nicolas - 2da etapa) terminar de ajustar los detalles de visualizacion que permitan ver la aplicacion de forma mas profesional.
+	     71.8 (prioritario) agregar un limite de registros a regresar en pantalla filtrado por fecha para evitar transacciones muy grandes e innecesarias.	     	  	      	      	  
+	     71.9 (efectuado - probado en ingles espanol) completar el proceso de traduccion de la aplicacion y probar que funciona correctamente al menos en espanol, ingles, portugues y frances
+	     71.10 instalacion del sistema, ubuntu, postgres, nodejs, en la maquina que ejecutara el servicio de forma temporal mientras se logra obtener un servidor para tal fin con caracteristicas similares al servidor que se tenia anteriormente.
+	     71.11 (prioritario - Nicolas - 2da etapa) crear documentacion basica que permita  entender como se opera el sistema, pueden ser videos de uso, documentacion basica y ayuda en linea
+	     71.12 (prioritario - Nicolas - 2da etapa) crear documentacion tecnica para el usuario que permita entender la aplicacion su funcionamiento y como mejorarla
+	     71.13 restablecer la cuenta de twilio para el envio de mensajes sms y whasapp, estableciendo el token idaccount y numero de telefono
+	     
+	 72. siguientes etapas del proyecto (limite de tiempo 5 de junio de 2021):
+	     componentes nuevos para entrega funcional.
+	     72.1 (2da etapa) formulario de proceso para establecer accesos directos a cada componente funcional del sistema.
+	     72.2 (2da etapa) componente parent child para agregar funcionalidad de registros anidados a un registro principal que sea configurable para agregarlo cuando sea necesario en el frontend.
+	     72.3 (efectuado) componente de tabs que permita desplegar multiple funcionalidad del sistema de forma ordenada y eficiente, en lo que ahora son formularios.
+	     72.4 (2da etapa) terminar de probar el componente de chat para mensajeria en tiempo real de usuarios.
+	     72.5 (2da etapa) proceso de facturacion.
+	     72.6 (2da etapa) proceso de historia clinica odontologica, medica y veterinaria, para enlazar con el proceso de agendamiento y facturacion y asi completar los procesos basicos de odontologias, clinicas, veterinarias.
+	     72.7 (prioritario) agregar opcion para descargar la base de datos del usuario, importar/exportar incluyendo todos los registros que contiene el sistema para la base de datos del usuario, tener en cuenta las bases de datos mongodb y los registros de postgres ademas de la creacion de los respectivos usuarios db
+	     72.8 (2da etapa) crear un panel de control distinto al proceso que permita ver indicadores del proceso graficos y en fin que sea muy visual para atraer la atencion del cliente/usuario
+	     72.9 (2da etapa) importante tener el proceso de pruebas automatizadas para ir comprobando la funcionalidad del sistema a medida que se va avanzando y verificar que a medida que se agrega funcionalidad la antigua configuracion funciona correctamente.
+	     73. (efectuado - prioritario - requiere creacion de indices, genera el problema que no busca por numero de documento por lo cual se deja) cambiar la forma de buscar con los autosuggest por el fulltextsearch para evitar criterios y evitar sensibilidad de mayusculas.
+	74. agregrar un gif de logo que tenga algun movimiento simple, pero que impacte.
+	75. agregar un mecanismo de guardado de registros de forma local cuando la conexion a internet se pierda y asi mismo un mecanismo de sincronizacion de esa informacion con la base de datos central
+	76. agregar un mecanismo de replicacion de base de datos puede ser slony para postgres y para mongodb buscar alguna herramienta que permita efectuar la sincronizacion.
+	77. agregar un mecanismo para que el sistema se refresque automaticamente al agregar un registro a la agenda por ejemplo y se muestre inmediatamente en pantalla sin necesidad de tocar el control de fecha
+	78. hacer algunas pruebas de estres del sistema enviando miles de conexiones simultaneas para probar que tan estable es, asi mismo probar usando miles/millones de registros de la base de datos para comprobar si se ralentiza de alguna manera y generar reportes para soportar el sistema frente a los clientes.
+	79. (efectuado) agregar algun indicador en el calendario cuando ya se haya efectuado el envio de la nofificacion al usuario de la cita programada sea por email, sms o whatsapp, puede ser el color de fondo del vinculo para diferenciar rapidamente el estado de la notificacion.
+	80. definir algunos tipos de campo que no existen aun como dbfiles y urls, tambien agregar para imagenes con vista previa y demas para llenar en los formularios.
+	81. (efectuado - funciona correctamente al menos con email) comprobar el llamado a la funcion de callback cuando se envia una notificacion email o sms para guardar el registro y actualizar el estado del d_meet
+	82. (efectuado - probado con miles de registros de email) verificar el llamado a la funcion savecomsent de cuando se genera una notificacion de envio de correo o sms 		
+	83. agregar funcionalidad para citas recurrentes para la proxima version del sistema
+	84. agregar funcionalidad para que el formulario siempre este completamente visible y se oculte el formulario de diligenciamiento de datos de la cita con un boton.
+	85. comprobar el funcionamiento de gestion de multiples zonas horarias.
+	86. (prioritario - Nicolas - 2da etapa) poner iconos en vez de botones para que se vea un poco mas profesional a nivel de diseno, utilizar una fuente especifica tambien para mejorar el aspecto de la aplicacion.
+	87. agregar la opcion para ver el calendario de forma semanal
+	88. (prioritario - 2da etapa) agregar la opcion de plantillas de citas para seleccionar de forma rapida y prestablezca las opciones en el formulario al crear nuevo registro o al seleccionarlo.
+	89. agregar las opciones de permiso de edicion de los registros de citas y demas usando privilegios para usuarios, solo ver, editar, ninguno.
+	90. establecer algunas lineas de soporte con mas rapida atencion de acuerdo al plan seleccionado, para el soporte premium establecer un tiempo de respuesta mas corto contratar a algun ingeniero para brindar este servicio.
+	91. agregar campos para poner la foto de los pacientes y guardar miniatura para poner en los formularios al pasar el mouse o algo asi.
+	92. (verificar si es necesario cuando la aplicacion alcance un estado de madurez considerada como estable) buscar algun mecanismo que permita monitorear los servicios una vez iniciados y que los reinicie en caso que lleguen a fallar por alguna razon para cada uno:
+	    92.1 server de app
+	    92.2 server de mensajeria
+	    92.3 server de chat
+	93. (prioritario - para la puesta en marcha del proyecto) crear los indices de fulltextsearch en cada una de las colleciones al momento del registro y duplicacion de la base de datos original minghos
+	94. existe una gran oportunidad de mercado relacionado con en el area de inteligencia artificial sobre todo en la parte de la obtencion de datos fiables para entrenamiento de los modelos, esta etapa puede hacerse plenamente con minghos, debe potenciarse la capacidad de obtener dichos tiempos y analizarlos para poder entregar a modelos posteriores datos confiables y que permitan inferir de forma apropiada para la toma de decisiones, debe terminarse el tema de la graficacion de procesos y agregarles la toma de tiempos entre etapas para poder aplicarles el potencial del machine learning desde la creacion del cliente hasta la facturacion del servicio por ejemplo en el area clinica y asi agregar funcionalidad que tenga valor agregado real y que sirva como know how unico de xsite que pueda ser patentado y genere en el cliente la tranquilidad de contar con un equipo que realmente le asegure una ventaja competitiva y asi poder competir con grandes del mercado, agregar en los graficos de procesos los items necesarios para recolectar los tiempos y datos necesarios para analizar y de alli entrenar los modelos para optimizar todos los recursos organizacionales asi competir con SAP bussines one en el mercado de la empresa pyme en latinoamerica y ayudar a ser un mecanismo de potencializacion del desarrollo local para competir en el mercado global, finalmente en el futuro poder competir con SAP a nivel global como empresa de software industrial para generar una ventaja competitiva a las industrias. sin esa informacion basica confiable no es posible que la industria acceda a la tecnologia de IA al menos en el corto plazo, tambien es posible crear algun mecanismo para la publicacion de resultados de equipos y asi tomar la informacion requerida desde la fuente esto con el modulo M5 que debe tener dicho proposito servir como mecanismo de captura de datos de instrumentos o maquinas que generen datos del proceso y pueda esta subirse de forma automatica al proceso y asi ir tomando todos los datos y completando el sistema para armar todo el perfil de informacion requerido para usar las ventajas de la IA.
+	95. (efectuado) efectuar una revision del servicio msgserver.js porque en el evento de envio de mensaje de correo no esta programado de forma asincrona de tal manera que siempre se ejecuta el evento de guardado de registro aunque el envio de correo sea insatisfactorio, asegurar que sea programado de forma asincrona y que el evento de envio de correo determine si se guarda el registro de mensaje enviado de correo, no pasa lo mismo para el envio de sms y whatsapp porque en ese caso si esta de forma asincrona y correctamente guarda el registro si la funcion devuelve el enviado efectivo.
+	96. (efectuado - falta el editor de archivo en el frontend) establecer la funcion stransbk para usar archivos de texto para el caso de las traducciones y asi evitar usar consultas a la db, en el momento del registro del cliente crear un archivo de traducciones que contenga todas las entradas copia del archivo de traducciones y en el frontend agregar un editor de dicho archivo que permita cargarlo y actualizarlo de esta manejra que cada usuario tenga la posibilidad de personalizar completamente la aplicacion porque cada traduccion debera cargarse de dicho archivo, al principio debera cargarse del prestablecido del sistema o el idioma que seleccione el usuario al iniciar
+	97. (efectuado) en el proceso de envio de mensaje servicio msgserver.js esta tomando el valor de la ultima base de datos por lo cual no toma las traducciones personalizadas para cada cliente sino la ultima disponible en labase de datos corregir este comportamiento si es posible antes de la fecha de lanzamiento del proyecto
+	98. (efectuado parcialmente - se agrega un temporizador que permite efectuar varias veces por minuto el intento de envio guardando registro de notificacion) para el servicio principal de mensajeria utilizar una consulta que compruebe las citas que no hayan sido notificadas dentro del mismo dia aun cuando haya pasado la hora de notificacion ampliar la consulta hasta la hora a la cual se tiene la cita o pasadas un par de horas pero comprobando mediante el estado de la cita si no esta notificada aun siendo del mismo dia notificar al usuario porque se hizo una prueba desde distintas cuentas para enviar 5 mensajes desde cuatro cuentas era aprox 20 mensajes para el mismo momento y el servicio smtp de google no los soporto envio varios mensajes de error de servicio temporary unavailable por lo cual es necesario reintentar el envio posteriormente pero contemplando el estado del mensaje. si esta en programado intentar su reenvio.
+	99.(2da etapa - usar una cuenta de google workspace, otra opcion seria la rotacion de cuentas para envio) el servicio actual de envio de correo que se esta usando que es la version g suite antigua gratuita unicamente permite unos 500 emails por dia, entonces para evitar esta restriccion de gmail es necesario crear varias cuentas de xsite distintas para cambiar de cuenta cada vez que se alcance el limite de 500 por dia hasta que sean reseteados los contadores diarios de gmail, registrar unas 10 cuentas adicionales para este proposito, agregar un contador que se resetee a diario y cambiar de cuenta al enviar cada vez que se alcance el limite y de esta forma superar la restriccion mientras se obtienen los ingresos suficientes para pagar el servicio de google bussiness al menos para una cuenta para usar como origen de todo el correo a enviar desde la aplicacion.
+	100.(efectuado)  efectuar una revision del servidor de mensajes msgserver porque sucede que gmail solo acepta el envio en bulk de 13 correos utilizar en la consulta de los correos el criterio de estado:programado, agregar multiples cuentas de envio de correo y que el servicio vaya contando el numero de emails enviados en cada intento si es mayor a 13 que cambie por otra cuenta y asi continue enviando hasta llegar a notificar por completo todas las citas que sean necesarias, utilizar cuentas exclusivas para este propositoy asi lograr enviar multiples notificaciones segun sea requerido
+	101.(segunda etapa) efectuar una modificacion en el servidor de mensajeria aplicar a la consulta que si no ha sido notificado permita enviar en un rango de hora de unos diez minutos pasada la hora de envio programada con eso se obtiene una mayor capacidad de tolerancia a errores durante el envio la capacidad actual del sistema son aprox 50 correos por minuto de distintos usuarios, se esta guardando un registro al momento del envio de correo y se cambia el estado del registro a notificado para estar seguros que no se envia doble notificacion.
+	102. (efectuado - se agrega un try para atrapar el error en el frontend aun se cargan los arrays de traducciones correctamente, el module.export solo funciona en el backend) en el frontend se causa un error al cargar el archivo de traducciones que se usa en el backend
+	103. (prioritario) verificar porque no se carga el nombre de otros usuarios en el panel superior unicamnete el de admin si es que hace falta alguna informacion o porque.
+	104. (efectuado) agregar un formulario para edicion de las entradas del archivo de traduccion personalizado para cada cuenta de cliente
+	105. (2da etapa) crear una aplicacion nativa para android/iphone para que se conecte directo con el backend y permita efectuar las principales operaciones creacion/cancelacion de citas
+	106. (prioritario - se encontro que se causa un error js porque se carga primero la funcion de autosug aun cuando los formularios no han sido cagados, esto no pasa la primera vez) solucionar el problema que ocurre cuando se cargan distintos formularios no funcionan los autosuggest unicamente lo hacen cuando se recargan por primera vez.
+	107. (efectuado) agregar un mecanismo de seguridad de validacion en todos los request del backend solicitar la session creada sino enviar directo al login.
+	108. verificar los permisos para los usuarios nuevos en la base de datos postgres, mejor crear un usuario con permisos limitados no superuser de ser necesario, probarlo bien.
+	109. (efectuado) (prioritario) efectuar la solicitud de la ip fija a claro para poner el servicio de minghos
+	110. (efectuado) solicitar apuntar algun subdominio posiblemente minghos.xsitecompany.net a la ip publica que sea asignada
+	111. (efectuado) configurar la tarjeta de red y firewall del computador para responder las peticiones externas de minghos.
+	112. (3ra etapa) con los ingresos obtenidos por la compra de licencias de minghos comprar dos servidores uno para mongodb y otro para nodejs distribuir la aplicacion inicialmente en dos maquinas
+	113. (2da etapa) efectuar algunas pruebas de envio de sms con twilio antes de poner en produccion, verificar capacidad por minuto de envio de sms.
+	114. (3ra etapa) agregar el componente de historia clinica como modulo adicional para clientes,
+	115. (3ra etapa) permitir agregar los modulos de forma dinamica al sistema aun ya estando registrado por el usuario.
+	116. (prioritario) agregar un mecanismo para soporte remoto que los clientes puedan registrar incidentes que se vayan solucionando y cerrando cada uno, agregar un componente dentro de la aplicacion para este proposito con todos los datos para replicacion del incidente.
+	117. establecer el mecanismo que sera usado para pasar la aplicacion a fase productiva (alpha, beta, estable)
+	118. poner el estado alpha cerca al logo de la aplicacion.
+	119. (prioritario) agregar algun mecanismo de notificacion al usuario para enviar cada notificacion requerida, como mensajes de error y demas.
+	120. (efectuado) antes del lanzamiento del proyecto hacer una landing page que envie del dominio xsitecompany.net a minghos.
+	121. editar las hojas de estilo para cuando el sistema se vea en dispositivo pequeno se ajuste bien el calendario a la pantalla
+	123. (efectuado) utilizar mejor el espacio de la pantalla para el calendario y el formulario de datos.
+	124. (efectuado - solucionado y probado con diferente idioma ingles espanol) remover el idioma de las consultas de formularios dado que ya se tiene en cuenta en las traducciones.
+	125. (efectuado - prioritario) establecer correctamente la posicion de los divs de resultados del autosuggest.
+	126. (efectuado - prioritario) posicionar correctamente los elementos en toda la pantalla aprovechando mejor el espacio en la agenda y formularios.
+	127. (efectuado - prioritario) cargar las traducciones personalizadas desde javascript, en vez de translations.js cargar nombre_de_la_db.js
+	128. (2da etapa) agregar funcionalidad de todo list que permita crear tareas asignales fecha y estado en proceso, completado, cancelado.
+	129. clientes potenciales de la aplicacion:
+	     129.1 Odontologos y clinicas odontologicas,
+	     129.2 Consultorios medicos,
+	     129.3 Clinicas,
+	     129.4 Hospitales,
+	     129.5 Esteticas,
+	     129.6 Spa,
+	     129.7 Sicologos,
+	     129.8 Veterinarios,
+	     129.9 IPS,
+	     129.10 Nutricionistas
+	     129.12 Laboratorios Independientes.
+	     129.13 Consultorios Juridicos.
+	130. Agregar mecanismos de pago para la plataforma, PayPal, PSE, efecty, Nequi.
+	131. Agregar el chat como un formulario adicional para que no afecte la agenda y asi se pueda conversar cuando se quiera con los usuarios.     
+	132. (efectuado para espanol-ingles) verificar todas las traducciones que esten cargando valores correctos para puesta en marcha inicialmente.
+	133. (2da etapa) aplicar el minimizado de los scripts antes de entrar en produccion.
+	134. (efectuado parcialmente usando los fulltextsearch con indices se puede buscar de forma indiferente con mayusculas minusculas) utilizar alguna funcion de conversion de texto para pasar todo a mayusculas para evitar que no coincidan las busquedas	  
+	135. (2da etapa) agregar boton de notificar manualmente dentro del calendario, al lado del cancelar.
+	136. (2da etapa) agregar un mecanismo que actualice automaticamente el calendario cuando sea notificado es decir cuando sea creado un registro del mes actual usando un websocket para hacerlo de forma automatica.
+	137. (efectuado - prioritario) agregar un boton para cancelar la cita dentro del calendario
+	138. (efectuado - prioritario)  modificar las imagenes de la pagina landing para que todo concuerde con la fuente utilizada, usar tambien nombres de prueba como jhon doe y eso para mostrar los formmularios a los visitantes.
+	139. Deshabilitar la opcion de sms para cuando se registre un nuevo cliente en modo gratuito.
+	140. (2da etapa) verificar cuando se efectua el guardado de un registro se verifica la validez de cada campo y se cambia de color en caso de contener un valor invalido, volver a restablecer el color al momento de efectuar una busqueda.	
+	141. agregar un campo que sea como tipo div para agregar contenido masivo como un reporte o algo parecido
+	142. (prioritario) agregar campos tipo dbfile y url al frameworkm para procesamiento de formularios.
+	143. (prioritario) agregar campos tipo imagen que se muestre directamente en el formulario y que permita cargar dinamicamente.
+	144. (prioritario) agregar el logo y el nombre de la aplicacion como un item configurable para que el cliente le ponga el nombre que quiera y el logo que quiera en la parte superior.
+	145. (proceso) crear indices de text para hacer fulltextsearch en cada collection que tenga formulario en el frontend, pero esta vez en la parte de registro de nuevas cuentas de usuario.	   
+	146. Aregar un mecanismo de mensajeria para el frontend algo con un websocket que permita notificar en tiempo real cualquier cosa que sea necesaria de atencion por parte del usuario activo.
+	147. El mensaje de "the customer has not been activated please follow the email instructions to finish the sign up process" sale al estar seleccionado espanol verificar esto  es un error
+	148. comprarme un macbook pro para programar, parece ser que los mac cuentan con alguna ventaja competitiva sobre los demas fabricantes de hardware asi que vamos a probarlo.
+	149. (efectuado) comprar un telefono para recibir las llamadas de los clientes/soporte y demas.
+	150. comprobar la opcion de crear usuario que sea unicamente para agregar cita o generar algun mecanismo para hacerlo usando una url como en el servicio de twilio o algo similar
+	151. (efectuado - prioritario) agregar la opcion SMS por defecto deshabilitada hasta tanto el cliente no haga el pago efectivo que no pueda efectuar envios tipo SMS ni Whatsapp agregar al framework la opcion de disabled en cada opcion, cuando se habilite la opcion de sms para el cliente simplemente quitar el disabled=disabled del control select del tipo de msg de agenda, ademas de configurar los parametros token ssid y accountid de twilio.
+	152. (prioritario) agregar la opcion de configurar los parametros de email directamente por el cliente de la tabla d_param
+	153. activar la opcion de deshabilitar usuario.
+	154. (efectuado) meterle iconos pequenos a la aplicacion para que se vea mejor en el panel izquiero de navegacion para cada elemento.
+	155. oportunidad de negocio en el tema de la programacion de turnos para empresas de seguridad usando el calendario hacer una programacion con rotacion relevantes y demas que permita una correcta organizacion del control de turnos en empresas de seguridad.
+	156. (prioritario) revisar el html de recover porque no esta cargando el captcha correctamente para la recuperacion de la contrasena.
+	157. oportunidad de negocio en quienes abastecen alimentos como abastos para publicar comida que sea para regalar y que las personas que la necesiten la puedan acceder sin costo.	
+	158. (efectuado con ingles-espanol) efectuar pruebas exhaustivas con los idiomas porque al seleccionar frances el formulario no trae las traducciones correctas al encontrar duplicados en la base de datos.
+	159. tener en cuenta las traducciones al momento de rechazar el login de usuario por error de usuario contrasena.
+	160. (2da etapa) traducir la aplicacion a chino o algun idioma oriental.
+	161. (efectuado) hacer mas preguntas matematicas del captcha para tener mas repertorio del mismo tipo que se tienen
+	162. agregar el chat como un componente del menu del panel izquierdo para inicializar cuando el usuario quiera
+	163. (efectuado) agregar mas preguntas al sistema de catpcha en todos los idiomas.
+	164. (proceso - pero aun persiste el problema aun creados los index tipo wildcard tipo *${}, debe buscarse otra forma de crear los indices que soluciones este tema) actualizar la version de mongo parece que tiene errores en el proceso de creacion de indices con wildcards para usar todos los campos
+	165.verificar el idioma del panel de recuperacion de password no esta funcionando no cambia el idioma.
+	166. (efectuado - agregada categoria email y sms debe enviar ambas notificaciones en ese caso probado con exito el envio de email falta probar que envie el sms con la nueva cuenta de twilio pero deberia funcionar sin problema) agregar la opcion para permitir las dos opciones de notificacion 
+	167. sobrecargar la funcion del label de los field type collection para que pueda recibir un array de campos y se concatenen los valores para que por ejemplo permitan poner el nombre apellido de una persona y con id el numero de documento o el identificador unico _id.
+	168. (efectuado) crear el formulario de historia clinica odontologica para mostrar a los clientes potenciales las ventanjas de tener un sistema asi, crear el odontograma en canvas html5 y ponerle cuadros de texto para poner las observaciones del profesional.
+	169. agregar un formulario nuevo con un autosuggest inicial para poner el dato de la persona inicialmente y luego poner todos los campos del documento de historia clinica odontologica y en la parte derecha poner el odontograma en un canvas con la opcion de poner los datos en la propia imagen.
+	170. (2da etapa) usar una base de datos oracle para configuracion del proyecto en vez de mongodb a ver como funcionaria el sistema efectuar comparacion de velocidades.
+	171. (efectuado ponchados y conectado el portatil/servidor) comprar dos conectores rj45 para el servidor de base de datos
+	172. (2da etapa) instalar oracle en el servidor de base de datos para usarlo en reemplazo de mongodb a ver como funciona.
+	173. agregar un tipo de campo listas que sea administrado por la base de datos primaria de mongo lo cual permita actualizar unicamente un registro y que todos los clientes queden con el registro actualiado
+	174. (efectuado funciona correctamente) corregir el comportamiento de los campos tipo checkbox en el formulario en frontend
+	175. (efectuado) agregar al proceso de registro checkbox con cada uno de los componentes del sistema para que el usuario seleccione lo que necesite en el momento de la activacion junto con un boton de confirmacion o algo parecido asi unicamente agregar los componentes solicitados no todos.
+	176. cambiar donde se utilicen attributos cualquiera dentro del html a data-atributo para cumplir con el estandar html5.
+	177. (efectuado) agregar a cuando se busca en el form odontologia que repinte el canvas de odontograma.
+	178. requerimiento que el sistema permita firmar usando la huella del paciente con un lector biometrico para evitar fraudes, usar la app ya desarrollada conectando a una cola y up url configurada para formar documentos, puede ser la actualizacion de la historia clinica o
+	179. agregar tipo de campo imagenes que permitan subir fotos con url o de alguna manera para que se vea la foto del paciente, esto en historia clinica veterinaria.
+	180. (no tiene sentido este requerimiento) hacer el odontograma de forma flexible de tal manera que funcione para el modulo veterinario tambien.
+	181. agregar la confirmacion de la cita por medio de una url enviada como mensaje sms o email al paciente, que cambie de estado directamente la cita.
+	182. (efectuado) agregar multiples diagnosticos a una misma historia clinica odontologica. agregar cie10 para diagnosticos.
+	183. (efectuado para los datos de odontograma) al momento de cargar el array de datos de odontologia hacerlo una unica vez para no saturar el servidor, solo en el evento load, los demas usar el mismo array guardarlo en o.odoArr o otro elemento del objeto odontologico.
+	184. (2da etapa) utilizar inteligencia artificial para determinar segun los datos de las historias clinicas odontologicas cuales son las afectaciones odontologicas mas frecuentes en ninos y adultos para hacer campanas de salud oral que vayan enfocadas especialmente a tratar dichos resultados frecuentes que permitan frenar mas eficazmente el avance de 
+	185. (efectuado) verificar al momento de hacer click en nuevo no se esta reflejando en el campo de la foto establecer la imagen por defecto para reemplazar la que este previamente cargada.
+	186. agregar el control de inventarios para vincular directamente con el tratamiento odontologico, descontar elementos a medida que se van consumiendo durante el tratamiento de cada diente
+	187. agregar los documentos consentimientos informados del cliente para que sean listos para firmar, de tal forma que sean como plantillas de documentos para poder imprimirlos rapido y hacerlos firmar por el cliente.
+	188. permitir que los consentimientos informados sean firmados de forma biometrica, asi sea mas seguro, utilizar el plugin de java desarrollado para labware para este proposito.
+	189. (efectuado) agregar una pestana de diagnosticos en el modulo odontologico para agregar con autosuggest varios elementos de la tabla de cie10 de enfermedades para que el profesional pueda agregar rapido usando cualquier criterio de busqueda.
+	190. establecer un plan para recuperacion ante desastres que permita restablecer el sistema en tiempo minimo tres caracteristicas principales:
+	     backup de aplicacion: esta sera efectuada manualmente desde la carpeta de minghos en linux desde la maquina de desarrollo.
+	     (efectuado en el servidor de mongodb) backup de base de datos nosql: esta sera efectuada de forma automatica desde windows hacia mongodump tomando a diario una copia del sistema completo sera importante cuando se llegue a cierto tope de almacenamiento establecer como sera sobreescritos los antiguos backups.
+	     backup de base de datos sql: hay que establecer un mecanismo que efectue la copia de forma automatizada o manual pero hacerlo de forma periodica para no perder ningun cambio en caso de desastre que siempre suceden.
+	191. Agregar funcionalidad especifica odontologica como:
+	
+		191.1 (2da etapa) Periodontograma:
+		es una herramienta visual que permite agregar las caracteristicas de los dientes en sus superficies y ademas en las partes no visibles raices y demas. debe ser una herramienta de hacer click en las partes que se deseen colorear para mayor facilidad del usuario.
+		
+		191.2 (prioritario) Presupuestos:
+	     	herramienta que permita agregar costos del tratamiento asi como abonos generar recibos y resumenes del plan de pagos y estado actual del proceso con impuestos aplicables y demas caracteristicas
+		191.3 Imageneologia:
+		Como es factible y relativamente facil de hacer debe permitir subir imagenes radiografias y fotos de todo tipo dental para cada historia clinica con un limite de tamano para evitar saturar el servidor
+		191.4 (prioritario) Encuestas de servicio:
+		Permitir enviar al usuario encuestas de la atencion recibida por email para su diligenciamiento y consolidacion de datos.
+
+		191.5 (prioritario) Consentimientos Informados (firmados biometricamente):	
+		Debe permitir la generacion de documentos que esten estalbecidos en una plantilla con los datos del paciente y adicionalmente que queden en cola para ser firmados de forma biometrica con el lector de huella para cada paciente asi se evitaran problemas legales y se tendra mayor confianza en el documento que se le puede agregar una parte en texto que diga firmado digitalmente, agregar el plugin biometrico para este proposito, tambien ver la posibilidad de comprar una tableta de escaner de firma para anexar la firma del paciente junto con la huella, agregar un panel de reportes rapidos en la parte derecha de la historia clinica
+		
+		191.6 Permitir link para establecer citas a los usuarios directamente sin necesidad de login en la aplicacion
+		Para que el usuario sin ser necesaria la mediacion de funcionario alguno pueda establecer su agenda de cita con el profesional que quiera
+
+		191.7 (prioritario) Agregar la informacion necesaria de campos para generacion de los RIPS tal como estan mencionados en la circular y que hagan parte de una pestana de RIPS exclusiva.
+
+	192. (prioritario) agregar una confirmacion en caso de presionar eliminar que solo se elimine con la doble confirmacion por seguridad del registro.
+	193. (prioritario) los campos tipo fecha hora y select no se estan poniendo en rojo cuando son de tipo treq=true comprobar como hacer para mostrar al usuario que hacen falta por diligenciar.
+
+Consideraciones del proyecto:
+		
+	1. el servidor de nodejs es extremadamente rapido para procesar peticiones y esta optimizado para hacer peticiones en paralelo, sin embargo la velocidad en el procesamiento ciclico de tareas repetitivas es considerablemente lento segun se ha podido leer en distintos foros de internet por lo cual se preve que pueda ser necesario utilizar llamadas a otros lenguajes de tipo compilados como por ejemplo C en los cuales esas tareas son sumamente rapidas con lo cual efectuar una integracion de nodejs con C para esos casos donde el procesamiento va a ser un factor clave, por ejemplo en el establecimiento de los planes de asignacion de tareas con la API y microservicio para retornar a los clientes es posible hacer una interfaz entre nodejs y C.
+	2. Se usara el navegador chrome con las herramientas para desarrolladores para efectuar las tareas basicas de desarrollo y depuracion del codigo fuente.
+	3. Se usara el postgres 10 con pgadmin4 para administracion de base de datos RDBMS tipo SQL.
+	4. Se usara mongodb como base de datos no estructurada para almacenamiento de documentos y demas data no estructurada, de tipo noSQL.
+	5. Debe agregarse un mecanismo de privilegios que permita a un usuario acceder a una parte del proceso o a todas dependiendo del privilegio, este puede ser de tipo 1 ninguno, 2 lectura, 3 lectura-escritura, vinculado con el modulo de BPM asi como con cada etapa dentro de dicho proceso
+	6. Verificar como se ve la aplicacion en dispositivos moviles para agregar un css especial que permita usar el sistema sin problemas en celulares tablets, etc.
+	7. tener en cuenta todo el software opensource que se utiliza, en alguna medida usar parte de las ganancias para apoyar el desarrollo de los proyectos que se utilizan en la aplicacion, postgres, nodejs, mongodb, emacs, ubuntu etc, contribuir economicamente con estos proyectos que han sido vitales para el continuo crecimiento de xsite y minghos.
+	8. pagar por el uso de herramientas profesionales en la medida en que sean utiles como puede ser mongodb version enterprise, google version de pago y la mayoria de herramientas que se usan de forma gratuita.
+	
+	Prioridades en el desarrollo de la aplicacion:
+
+	1. completar el sistema de creacion de procesos, requiere agregar funciones de js para la generacion de ids automaticos del lado de mongodb y el evento de agregar proceso.
+	   1.1 falta terminar de probar el proceso de BPM, creacion de items dentro del proceso, eliminacion, y diagramado automatico del proceso, tener en cuenta los nuevos componentes que han sido agregados asi como un mecanismo para que se puedan enlazar de forma mas elegante.
+	   1.2 falta:
+	       1.2.1 corregir el posicionamiento del inicio del proceso, agregar el "x" y "y" como parametros iniciales y de alli en adelante continuar diagramando.
+	       1.2.2 contemplar la logica de los links, poner el target en alguna parte de la configuracion para llamar de acuerdo a como el usuario lo determine si es en la misma pantalla o en otra.
+	       1.2.3 verificar como hacer para cargar directamente un proceso usando el link porque es necesario que cuando se haga click en el icono de procesos se abra un nuevo link con dicho proceso.
+	       1.2.4 contemplar la logica de emulacion del proceso usando datos aleatorios, esto requerira controles basicos como siguiente atras y generacion de aleatorios para cuando hayan decisiones y asi probar paso a paso el algoritmo hasta su finalizacion.
+	       1.2.5 corregir al diagramar que se corran las lineas porque el dibujo es menos o mas ancho dependiendo del tipo de item, actividad, decision o limites.
+	       1.2.6 (efectuado) agregar opcion para maximizar/restaurar el canvas
+	       1.2.7 (efectuado) agregar opcion para que por defecto los controles de edicion salgan ocultos hasta que se de click en algun lado se muestren y empiecen a funcionar puede ser dentro de un div style:hidden luego cambiar a block, solo dejar el selector de procesos
+	       1.2.8 	agregar opciones para hacer zoom del proceso.
+	       1.2.9 	agregar opciones para exportar/importar el proceso completo por si se quiere enviar a otro sistema esto en texto plano un json conteniendo todo el proceso de mongodb
+	       1.2.10	(por defecto al hacer click derecho se tiene la opcion de guardar imagen del proceso en su estado actual) agregar opciones para exportar imagenes desde el canvas usando una imagen png o jpg para guardar el proceso en modo grafico, por defecto el navegador tiene la opcion usando el click derecho.
+	       1.2.11	(efectuado) se utiliza la funcion encodeURIComponent, decodeURIComponent la cual codifica/descodifica apropiadamente y se guarda bien en la db corregir el proceso de guardado que no ocurre correctamente con algunos caracteres especiales como comillas dobles + etc que se necesitan	     
+
+	   1.3 usando el mecanismo completado de generacion de procesos, crear los procesos para atencion medica veterinaria de:
+	       1.3.1 (2da etapa) consulta externa veterinaria
+	       1.3.2 (2da etapa) atencion de urgencia veterinaria
+	       
+	2. completar los mecanismos de seguridad del proceso es decir el tema de como se manejaran los privilegios de usuarios a traves del proceso y en fin de toda la aplicacion.
+	3. completar los tres mecanismos de ver informacion basicos de la aplicacion a saber, formularios, grids, calendarios, parentchild formulario con grid de registros vinculados, que sean completamente configurables y si es posible que haya un panel para la definicion de cada uno, con campos que sean genericos al crear y permitan flexibilidad, agregar el tipo archivo subido a la db y el tipo url que guarda el vinculo, parecido a como funciona en LabWare.
+	4. (efectuado) esta completo el mecanismo de ver por mes, completar el mecanismo de agenda que tenga las siguientes caracteristicas, sea visible por mes o por semana, si es por mes o por semana que tenga selector de mes y de ano,  en cada opcion debe mostrar cuadritos donde se tenga dentro la informacion de las citas establecidas para cada dia con su paciente asi como con su medico veterinario, profesional o especialista correspondiente, tambien vincular con el proceso que le corresponde por ejemplo consulta externa en cada item poner el link.
+	5. falta el mecanismo de ver la programacion por semana establecerlo junto con un selector de semana del mes o del ano.
+	6. (efectuado) se ha completado hay un mecanismo para el frontend y para el backend, completar el mecanismo de traduccion de la aplicacion para poder comercializar por internet.
+	7. (efectuado) se establece que sea seleccionado el idioma pero falta establecer el formulario de configuracion donde se establece para cada usuario el idioma de la aplicacio por una unica vez al inicio de la aplicacion y pasar el parametro por todo el resto, tambien establecerla como configuracion de usuario para que el usuario la prestablezca al momento de ingresar al sistema esta ye se encuentre establecida
+	8. (efectuado) (corregido) voy comprobando la funcion de agenda que no estaba permitiendo listar las citas establecidas el primero de cada mes por algun problema con la composicion de la fecha al quitarle la hora hace la consulta correctamente en mongodb por eso se hace un split para solo tomar la parte de fecha sin tiempo y consulta correctamente, pero hay que revisar ahora porque no carga las citas del mes al hacer la carga inicial con los datos por default, deberia cargar al menos una cita para el primero de junio de 2020 pero no esta saliendo nada comprobar porque esta saliendo un error en la consola relacionado con la funcion agenda.js linea 165. terminar el tema de la agenda con eso y luego ir por el tema de la facturacion segun los criterios de la DIAN para poner en linea el servicio lo antes posible. (cuando se crea la fecha se toma la zona horaria por tanto estaba usando una fecha de un dia antes por eso consultaba mal la fecha.
+	9. (en proceso) tarea de cargar los registros de un grid que debe ser generico, el sistema debe permitir multiples grids para cada formulario por lo cual debe cargarse dinamicamente  en el evento de search de cada formulario, creo que la mejor opcion seria en el evento de cargar formulario establecer los parametros como el tipo form-grid y cual es el nombre de cada collection para en el momento del evento del search se consulten estos parametros y usando el campo de vinculacion se haga la busqueda de registros en la colleccion respectiva y se carguen dinamicamente usando las mismas funciones de eventos del script controller comprobando el tipo form-grid
+	10. establecer un mecanismo que permita exportar la base de datos de mongodb y postgres junto con todo el proyecto en nodejs para evitar una posible falla en el sistema operativo o en la maquina ubuntu donde esta todo el proyecto y evitar perdidas de informacion.
+	11. precargar los procesos basicos para los mercados objetivos iniciales como veterinarias, consultorios medicos, peluquerias, facturacion, POS.
+
+POLITICA DE TRATAMIENTO DE DATOS PARA LA APLICACION EN LA UNION EUROPEA:
+	 Cuando el tratamiento se base en el consentimiento del interesado, el responsable deberá ser capaz de demostrar que aquel consintió el tratamiento de sus datos personales.
+	 (Es decir que debe haber un boton donde el usuario acepte el tratamiento de datos y donde se le informe previamente los motivos por los cuales se recopilara dicha informacion, ademas debe tener un registro detallado de fecha hora y coordenadas x y en la pantalla donde hizo click el usuario para el consentimiento)
+	 El interesado tendrá derecho a retirar su consentimiento en cualquier momento. La retirada del consentimiento no afectará a la licitud, del tratamiento basada en el consentimiento previo a su retirada. Antes de dar su consentimiento, el interesado será informado de ello. Será tan fácil retirar el consentimiento como darlo.
+	 (Es decir que el usuario debe poder revocar el permiso de tratamiento de datos de forma tan simple como se haga para dar el permiso)
+	 Al evaluar si el consentimiento se ha dado libremente, se tendrá en cuenta en la mayor medida posible el hecho de si, entre otras cosas, la ejecución de un contrato, incluida la prestación de un servicio, se supedita al consentimiento al tratamiento de datos personales que no son necesarios para la ejecución de dicho contrato.
+	 ()
+
+ERRORES:
+
+Numero:	Estado:		Descripcion:ProcedimientoReplica
+
+0.0.1:	Corregido:	No se blanquean algunos campos en los formularios al hacer click en los botones de exploracion de registros
+(Procedimiento de replica):
+1. entre a personas
+2. click en buscar
+3. click en ultimo
+4. click en nuevo (se ve que algunos campos aun permanecen con datos aunque deberia limpiarse completamente el formulario)
+0.0.2:	Pendiente:    El chat no esta agregando nuevos mensajes unicamente el primero algo pasa con el evento paarece que se reemplaza al enviar el primer mensaje   	 
+
+TAREAS PENDIENTES:
+
+Numero:Estado:Descripcion
+0.0.1:	Efectuado:	Remover las llamadas a servidores remotos para las fuentes usadas en el proyecto para evitar que se ralentice en el caso que la aplicacion este fuera de linea
+0.0.2:	Efectuado:	Copiar las fuentes en entorno local para evitar que la aplicacion se quede congelada cuando no esten en linea las fuentes, caida de internet o caida del website de las fuentes.
+0.0.3: 	Efectuado:	Agregar items al diagrama de procesos y guardarlo en mongoDB. con el boton agregar.
+0.0.4:	Efectuado:	Agregar la opcion de eliminar item del proceso en el editor de procesos.
+0.0.5:	Efectuado:	Al salir eliminar la opcion de atras del navegador para evitar que luego de haber terminado la sesion del sistema se puede dar click en atras y volver a loguear.
+0.0.6:	Pendiente:	Agregar privilegios para cada item en el proceso.
+0.0.7: 	Efectuado:	Agregar un token a la sesion del usuario y que se requera en cada peticion de la aplicacion si no existe el token regresar a la pagina de login de usuario.
+0.0.8:	Pendiente:	Agregar un gestor de parentchild generico que sea completamente configurable dependiendo de parametros que el usuario ingrese.
+0.0.9:	Efectuado:	Tener en cuenta la internacionalizacion siempre para poder comercializar el sistema en el extranjero.
+0.0.10:	Efectuado:	(mediante el modulo nodemon nodejs) Crear un listener de los cambios de html o texto para poder cargar las traducciones dinamicamente.
+0.0.11:	Efectuado:	Eliminar la carga duplicada de scripts
+0.0.12:	Efectuado:	Agregar que al evento click en el menu lateral de cargar formularios se oculte inmediatamente el div contenedor del menu desplegado para evitar tener que cerrarlo con el mouseover
+0.0.13:	Efectuado:	(seguir probando para comprobar que se soluciono por completo) Me ocurrio un problema al intentar loguear la aplicacion rechazaba constantemente el usuario/password captcha, hice un par de modificaciones para no devolver el password al frontend cuando sea rechazado y de repente empezo a funcionar. 
+0.0.14: Efectuado:	Comprobar porque algunas veces no cargan la bandeja de mensajes de usuario
+0.0.15: Efectuado:	Eliminar el campo de criterio de los formularios en vez de eso usar los campos principales para efectuar la busqueda en algun punto de configuracion del formulario
+0.0.16:	Pendiente:	Darle una probada a la funcion bezier que crea una linea curva entre dos puntos a ver como quedarian las uniones de los items en el dibujo de los algoritmos
+
+TAREAS VARIAS DEL FRAMEWORK:
+
+  1.Efectuado. definiendo la funcion para cargar js de las traducciones de acuerdo al idioma por defecto que tenga la aplicacion
+  2.Efectuado. agregar una metodologia de consulta de los campos en base de datos
+  3.Efectuado. agregar una botonera con los controles basicos de aplicacion crud, primero ultimo siguiente y anterior para exploracion de registros
+  4.Efectuado. agregar botones para ingresar registro para actualizar
+  5.Efectuado. agregar un buscador usando un fulltextsearch de mysql, se agrega un buscador, con un campo de criterio para seleccionar.
+  6.Efectuado. configurar mongoDB para efectuar una conexion y consultas a tablas para ver su comportamiento en vez de mysql.
+  7.Efectuado. configurar una conexion a postgres para usar en vez de mysql.
+  8.Efectuado. Agregar los textos del menu de exploracion a las traducciones.
+  9. agregar al panel de control la configuracion del idioma de la aplicacion
+  10.Efectuado. agregar estilos al formulario principal fuentes y mejor apariencia
+  11.Efectuado. permitir cambiar de formulario sin problema ahora esta generando problema al cargar un segundo formulario toca revisarlo a restablecerlo igual a como se carga en el principio.
+  12.Efectuado.  habilitar la opcion para el fulltext search o poner un selector del campo para el cual efectuar la busqueda
+  13.Efectuado. agregar el indicador de numero de registros para saber en donde se encuentra el usuario
+  14.Efectuado. Agregar una validacion de campos con javascript o con html5 usando el tag pattern con form, agregado con expresiones regulares
+  15.Efectuado. continuar con la creacion de la funcion de validacion js f.v() en framework y en save en controller para validar todos los campos agregar una etiqueta nueva que se llame field-type o algo similar
+  16.Efectuado. en el fomulario invalido poner mensajes pasando por la variable que trae las traducciones
+  17.Efectuado. verificar que todos los textos de la aplicacion esten siendo pasados por las traducciones 
+  18.Efectuado. agregar todas las fuentes de la aplicacion a las carpetas locales.
+  19.Efectuado. remover las fuentes de servidores de google  o copiar localmente para que no sea necesaria la conexion a internet para operar el sistema o que se pueda usar sin conexion.
+  20.En proceso definiendo la funcion que consulta y carga un grid tipo tabla en pantalla
+  21.Efectuado. pasar todas las funciones de js al framework para removerlas de mongo y evitar confusiones, usando ids de elementos
+  22.Efectuado. considerar remover de todo el framework las llamadas a la funcion eval por seguridad y cross site script atacks
+
+
+Voy:
+	probando el proceso de deshabilitacion de modulos en app.js linea 606, debe consultar la base de datos:postgres para obtener el nombre de la db mongo, luego consultarla y los items que no esten marcados en el array de req.body deberan ser eliminados para que el usuario no tenga acceso a ellos
+
+
+RECLUTAMIENTO DEL MEJOR EQUIPO DE TRABAJO PARA LA EJECUCION DEL PROYECTO:
+
+Director:
+Ferley Ardila Caicedo
+
+Programadores:
+Ivan Arturo Quijano Bernal
+
+Vendedor:
+Enric Seseras
+
+Asesores Cientificos:
+Edison Veloza, Fernanda Paredes
+
+Soporte:
+Sandra Paez Gomez

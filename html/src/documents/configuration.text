@@ -1,0 +1,24 @@
+Instance configuration:
+
+1. creacion de usuario de recuperacion de cuenta de sistema
+
+CREATE ROLE reademail WITH
+  LOGIN
+  NOSUPERUSER
+  NOINHERIT
+  NOCREATEDB
+  NOCREATEROLE
+  NOREPLICATION
+ENCRYPTED PASSWORD 'md5ab189eadc8c206855bf22be6034ede9b';
+
+2. Instalacion de nodemailer
+
+// extension para envio de correo
+npm install --save nodemailer
+//extension para sesiones de express
+npm install --save express express-session body-parser
+//extension para crear el archivo package.json
+npm init --yes
+//extension para recargar automaticamente sin necesidad de cambiar el puerto ni reiniciar el servicio
+npm install nodemon -D
+

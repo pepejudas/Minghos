@@ -1,0 +1,11 @@
+Documento Manual Funcionamiento Framework F:
+1. Objetivo:	 		Este documento pretende explicar el funcionamiento del framework f
+2. Instrucciones:     		Cada Seccion del mismo permite entender una parte de como operan cada una de las funciones del framework.
+3. Contenido:
+   3.1	Nombre:			lT() Load Translation
+   3.2	Funcion:		Sirve para cargar una traduccion de un archivo donde se encuentran objetos relacionados para cada idioma en que esta traducida la aplicacion.
+   3.3	Uso:			lT('nombreclave')
+   3.4  Consideraciones:	el nombre clave debera estar cargado en la respectiva variable de idioma en el archivo translations.js
+
+
+NOTA: Este documento queda reemplazado con el generador de documentacion genDoc() js que permite documentar todas las funciones usando una metodologia parecida al javadoc 

@@ -1,0 +1,12 @@
+Formularios:
+	tipos de campo validos (Valid data types)d:
+	                                                                                                                  
+             alpha: alphabetic caracters without spaces
+	     alphaws: alphanetic caracters with spaces
+	     alphanum: alphanumeric caracters                                                                                    
+	     num: numeric caracters                                                                                              
+	     phone: numeric caracters with +
+	     email: email like field                                                                                     
+             password: Test for a strong password with this regex. The password must contain one lowercase letter, one uppercase \
+             url: http://address like field
+	     zip: zipcode validator

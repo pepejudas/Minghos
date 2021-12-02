@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Minghos</title>
+  </head>
+  <link rel="stylesheet" href="/css/style1.css">
+  <script>var dL='es'</script>
+  <script type="text/javascript" src="/js/frameworkm.js"></script>
+  <script type="text/javascript" src="/js/captcha.js"></script>
+  <body>
+    <div class='logocontainer'>
+      <img src='images/logo.png' width='30px'>
+      <h1>Minghos</h1>
+    </div>
+    <div class="container">
+      <form action='recover' method='POST'>
+	<div class='login'>
+	  <div><select name="languaje" id="languaje"><option value="es">Español</option><option value="en">English</option><option value="fr">Francais</option><option value="pr">Portugues</option></select></div>
+	  Email:<input name='email' type='email' id='email' autofocus  required /><br/>
+	  <div id='divcaptcha'></div>
+	  <input type='submit' value='Send' id='sendbutton' disabled='disabled'/>
+	  <div id='login2'></div>
+	</div>
+      </form>
+    </div>
+    <script>
+      var url_string = window.location;
+      var url = new URL(url_string);
+      var v = url.searchParams.get("v");
+      var emf = document.getElementById('login2');
+      var e = document.getElementById('email');
+      
+      if (v){
+      emf.innerHTML = '<br/>Invalid Email'; 
+      }
+
+      var qC;
+      
+      try{
+      //question captcha
+      qC = cA.gRQ(dL);
+      document.getElementById('divcaptcha').innerHTML = qC.q + " <input type='text' id='captchans' value=''/>";
+      }catch(e){
+	  f.c(e)
+      }
+      //to verify the captcha answer
+      try{
+      var ans = document.getElementById('captchans');
+      var subtn = document.getElementById('sendbutton');
+      var lsel = document.getElementById('languaje');
+
+      var fidl = localStorage.getItem('dL');
+      lsel.value = fidl;
+      
+      ans.addEventListener("change", function(){
+
+      if(e.value && ans.value == qC.a){
+      subtn.disabled=false;
+      }
+      });
+
+      }catch(e){
+	  f.c(e);
+      }
+    </script>
+  </body>
+</html>

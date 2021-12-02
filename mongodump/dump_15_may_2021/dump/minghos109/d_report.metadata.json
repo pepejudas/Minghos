@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_"},{"v":2,"key":{"$**":1},"name":"$**_1"}],"uuid":"5bf5aa7e887545c49fbf6c3f186872ea"}

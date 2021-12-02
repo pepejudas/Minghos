@@ -1,0 +1,1079 @@
+
+busqueda = {_id:new mongodb.ObjectID(valuesrch)};
+		    }else{
+			busqueda = JSON.parse("{\""+criterial+"\":\""+valuesrch+"\"}");
+		    }
+		}else{
+		    busqueda = "";
+		}
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+		    
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    
+		    if (!!table){
+			dbo.collection(table).find(busqueda).toArray(function(err, result) {
+			    
+			    if (err) throw err;
+			    res.send(result);
+			    db.close();
+			});
+		    }
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Send comunication request
+app.post('/send', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+
+    try{
+	try{
+	    //primero preguntar por la sesion iniciada
+            let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+		//collections for mongodb send sms subsystem
+		const c_system = "s_system";
+		const c_comunication = "s_comunication";
+		const c_person = "s_person";
+
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    
+		    var dbo = db.db(udatabase);
+		    var typedoc;
+		    var groupf;
+		    var messagecom;
+		    var accountSid; 
+		    var authToken;
+		    var fromNumber;
+		    
+		    !!req.body.id? iddoc=req.body.id:iddoc="";
+		    !!req.body.type? typedoc=req.body.type:typedoc="";
+		    !!req.body.group? groupf=req.body.group:groupf="";	    
+
+		    try{
+			
+			switch(typedoc){
+			case "whatsapp":   
+			case "sms":
+			    fn.c("entra a sms l277");
+			    
+			    //search auth code y token
+			    dbo.collection(c_system).find().toArray(function(err, resultat){
+				accountSid = resultat[0].accountsid;
+				authToken = resultat[0].authtoken;
+				fromNumber = resultat[0].fromnumber;
+			    });
+
+			    //search the comunication text
+			    dbo.collection(c_comunication).find({_id:new mongodb.ObjectID(iddoc)}).toArray(function(err, resultcol){
+				messagecom = resultcol[0].comunicado;
+			    });
+			    
+			    var busq = JSON.parse("{\"grupo\":\""+groupf+"\"}");
+			    fn.c(busq);    
+			    dbo.collection(c_person).find(busq).toArray(function(err, result) {
+
+				if (err) throw err;
+
+				fn.c("entra a buscar l296");
+				
+				if (accountSid && authToken){
+
+				    fn.c("entra a accountsid y authtoken");
+				    fn.c(result);
+				    
+				    var client = require('twilio')(accountSid, authToken);    
+				    var lenarr = result.length;    
+
+				    if (typedoc=="whatsapp"){
+					fromNumber = "whatsapp:"+fromNumber;
+				    }
+				    
+				    result.forEach(function(element){
+
+					if (typedoc=="whatsapp"){
+					    element.celular = "whatsapp:"+element.celular;
+					}
+					
+					client.messages.create({
+					    body:messagecom,
+					    to: element.celular,
+					    from:fromNumber
+					}).then((message) => console.log("response from twilio:"+element.celular +" "+ message.sid));
+				    });
+				}else{
+				    fn.c("accountSid and authToken not set correctly"); 
+				}
+			    });
+
+			    break;
+			case "email":
+
+			    var properties = fn.loadProperties('./conf/conf.properties');
+
+			    var nodemailer = require('nodemailer');
+
+			    var host = properties.get('conf.email.host');
+			    var port = properties.get('conf.email.port');
+			    var secure = properties.get('conf.email.secure');
+			    var requiretls = properties.get('conf.email.requiretls');
+			    
+			    var email= properties.get('conf.email.from');
+			    var password= properties.get('conf.email.password');
+			    var arrayResponse = new Array();
+			    
+			    var transporter = nodemailer.createTransport({
+				host: host,
+				port: port,
+				secure: secure,
+				requireTLS: requiretls,
+				auth: {
+				    user: email,
+				    pass: password
+				}
+			    });
+
+			    !!req.body.typec? typec=req.body.typec:typec="";
+			    !!req.body.group? group=req.body.group:group="";
+			    !!req.body.comunicado? comunicado=req.body.comunicado:comunicado="";
+			    !!req.body.titulo? titulo=req.body.titulo:titulo="";
+			    
+			    var busq = JSON.parse("{\"grupo\":\""+group+"\"}");
+			    dbo.collection(typec).find(busq).toArray(function(err, resultcol){
+
+				var numl = resultcol.length;
+				var emailto;
+
+				for(var i=0;i<numl;i++){
+				    
+				    emailto = resultcol[i].email
+
+				    fn.c(emailto);
+				    
+    				    const mailOptions = {
+					from: email, // sender address
+					to: emailto, // list of receivers
+					subject: titulo, // Subject line
+					html: comunicado// plain text body
+				    };
+
+				    fn.c(mailOptions);
+				    
+				    transporter.sendMail(mailOptions, function (err, info) {
+					fn.c("envio de email"+emailto);
+					fn.c(err);
+					fn.c(info);
+					
+					arrayResponse[i]=info
+				    });
+				}
+			    });
+			    res.send(arrayResponse);
+			    break;
+			}
+		    }catch(e){
+			fn.c(e);
+		    }
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}		
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Delete record
+app.post('/delete', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    
+    try{
+	try{
+	    //primero preguntar por la sesion iniciada
+            let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    var idrecord;
+		    var tablef;
+		    
+		    !!req.body.id? idrecord=req.body.id:idrecord="";
+		    !!req.body.table? tablef=req.body.table:tablef="";	    
+
+		    fn.c('idrecord:'+idrecord);
+		    fn.c(tablef);
+		    
+		    //remove record by id
+		    try{
+			var returns = dbo.collection(tablef).deleteOne({_id:new mongodb.ObjectID(idrecord)}, (err, collection)=>{
+			    if(err){
+				res.send(err);
+			    }
+			    
+			    res.send(collection.result);
+			})
+			
+			fn.c(returns);
+			
+		    }catch(e){
+			fn.c(e);
+		    }
+
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//System Information
+app.post('/system', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    var urlws = properties.get('app.wsurl');
+    var cwsport = properties.get('app.cwsport');
+    
+    try{
+	try{
+	    //primero preguntar por la sesion iniciada
+            let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+
+		    var dbo = db.db(udatabase);
+
+		    const col2 = 'd_userui';
+		    var objsearch2 = {user:req.session.up.user};
+		    
+		    dbo.collection(col2).find(objsearch2).toArray(function(err, rslt) {
+			if (err) throw err;
+
+			fn.c(rslt);
+			fn.c(objsearch2);
+			fn.c('d_userui-------------------------------------------------------------------------------------------');
+			
+			const col3 = 'd_privilege';
+
+			//use the first assigned rol use for default
+			let rol = rslt[0].rol[0];
+			let dLUser = rslt[0].dL;
+			var objsearch3 = {rol:rol};
+
+			dbo.collection(col3).find(objsearch3).toArray(function(err, result) {
+			    if (err) throw err;
+			    
+			    var obj = {
+				nameapp:nameApp,
+				version:version,
+				user:req.session.up.user,
+				rol:rol,
+				dLUser:dLUser,
+				privArray:result[0].priv,
+				urlws:urlws,
+				cwsport:cwsport
+			    };
+
+			    res.send(obj);
+			    
+			});
+		    });
+		    
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Loadform request
+app.post('/savetransfile', function(req, res){
+
+    //var pathname = url.parse(req.url).pathname;
+    fn.c('entra al procesamiento del save transfile...');
+    
+    try{
+	try{
+	    let inspath = properties.get('paths.instpath');
+	    //primero preguntar por la sesion iniciada
+            let orgid = req.session.up.orgid
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let nudatabase = req.session.up.udatabase;
+
+		let translfile = `${nudatabase}.js`
+		const dest =  `${inspath}/translations/${translfile}`
+
+		let textrans = ""
+		!!req.body.text? textrans=decodeURIComponent(req.body.text):textrans="";
+		
+		fs.writeFile(dest, textrans, function (err) {
+		    if (err){
+			fn.c(err)
+		    }else{//guarda correctamente el archivo
+			res.send('{"ok":"1", "m":"the translation file has been saved successfully, please reload the application"}');
+		    };
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(E){
+	fn.c(E);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Loadform request
+app.post('/transfile', function(req, res){
+
+    //var pathname = url.parse(req.url).pathname;
+    fn.c('entra al procesamiento del loadcollection...');
+    
+    try{
+	try{
+	    let inspath = properties.get('paths.instpath');
+	    //primero preguntar por la sesion iniciada
+            let orgid = req.session.up.orgid
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let nudatabase = req.session.up.udatabase;
+
+		let translfile = `${nudatabase}.js`
+		const dest =  `${inspath}/translations/${translfile}`
+			    
+		//serch file with same name as udatabase
+		fs.readFile(dest, 'utf8' , (err, data) => {
+		    if (err) {
+			fn.c(err)
+		    }else{
+			res.send(data);
+		    }
+		})
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(E){
+	fn.c(E);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Loadform request
+app.post('/loadcollection', function(req, res){
+
+    //var pathname = url.parse(req.url).pathname;
+    fn.c('entra al procesamiento del loadcollection...');
+    
+    try{
+	try{
+	    //primero preguntar por la sesion iniciada
+            let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		var uhost = properties.get('udatabase.host');
+		var uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+		
+		var pathname = url.parse(req.url).pathname;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    var collectionName;
+		    var conditions;
+
+		    try{
+			fn.c('req.body');
+			fn.c(req.body);
+			
+			!!req.body.collection? collectionName=req.body.collection:collectionName="";
+			!!req.body.conditions? conditions=req.body.conditions:conditions="{}";
+			conditions = JSON.parse(conditions);
+
+		    }catch(e){
+			fn.c(conditions);
+		    }
+
+		    fn.c('conditions:');
+		    fn.c(conditions);
+		    
+		    //pass to array all collection and return as array to http request
+		    dbo.collection(collectionName).find(conditions).toArray(function(err, result) {
+			//dbo.collection(collectionName).find(c).toArray(function(err, result) {
+			if (err) throw err;
+			res.send(result);
+			db.close();
+		    });
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(E){
+	fn.c(E);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Loadform request
+app.post('/senditem', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    
+    try{
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    var collectionid;
+		    var options;
+		    var criteria = "";
+		    var update = "";
+		    
+		    !!req.body._id? _id=req.body._id : _id="";
+		    !!req.body.tipo? tipo=req.body.tipo : tipoidproceso="";
+    		    !!req.body.nombre? nombre=req.body.nombre : nombre="";
+		    !!req.body.responsable? responsable=req.body.responsable.split(",") : reponsable=[""];
+    		    !!req.body.conexiones? conexiones=req.body.conexiones.split(",") : conexiones=[""];
+    		    !!req.body.id? id=req.body.id : id="";
+		    !!req.body.link? link=req.body.link : link="";
+
+		    var objins = {
+			"tipo" : tipo,
+			"nombre" : nombre,
+			"responsable" : responsable, 
+			"id" : id,
+			"conexiones" : conexiones,
+			"link" : link
+		    };
+
+		    var objsearch = {_id:new mongodb.ObjectID(_id)};
+
+		    dbo.collection("d_process").find(objsearch).toArray(function(err, result) {
+			if (err) throw err;
+
+			//get last id inserted
+			var objr = result[0];
+
+			//iterate.push(objins);
+			objr.etapas.splice(id,0,objins);
+
+			fn.c(objr.etapas);
+			//actualizar el id de aqui en adelante
+			fn.c(id + ':'+objr.etapas.length);
+			
+			for(var i = id;i < objr.etapas.length;i++){
+			    objr.etapas[i].id = i;
+			}
+			
+			fn.c(objr);
+			
+			var updt = { $set: {"etapas" : objr.etapas } };
+			dbo.collection("d_process").updateOne(objsearch, updt);
+
+			res.send('{"updated":"true"}');
+			db.close();
+			
+		    });
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+app.post('/remitem', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    
+    try{
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    var idproc;
+		    var id;
+		    
+		    !!req.body._id? _id=req.body._id : _id="";
+    		    !!req.body.id? id=req.body.id : id="";
+
+		    var objsearch = {_id:new mongodb.ObjectID(_id)};
+		    
+		    dbo.collection("d_process").find(objsearch).toArray(function(err, result) {
+			if (err) throw err;
+
+			fn.c('backend1');
+			fn.c(result[0]);
+			//get last id inserted
+			var objr = result[0];
+
+			//iterate.push(objins);
+			objr.etapas.splice(id,1);
+
+			fn.c(objr.etapas);
+			//actualizar el id de aqui en adelante
+			fn.c(id + ':'+objr.etapas.length);
+			
+			for(var i = id;i < objr.etapas.length;i++){
+			    objr.etapas[i].id = i;
+			}
+			
+			//var criteria = {idproceso:idproceso};
+			var updt = { $set: {"etapas" : objr.etapas } };
+			dbo.collection("d_process").updateOne(objsearch, updt);
+
+			res.send('{"updated":"true"}');
+			db.close();
+		    });
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}	
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Loadform request
+app.post('/loadform', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    
+    try{
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    
+		    var dbo = db.db(udatabase);
+		    var idform;
+		    var langf;
+		    
+		    !!req.body.id? idform=req.body.id:idform="";
+		    !!req.body.lang? langf=req.body.lang:langf="";	    
+		    
+		    fn.c('idform:'+idform);
+
+		    dbo.collection("s_form").find({id:idform, lang:langf}).toArray(function(err, result) {
+			if (err) throw err;
+			res.send(result);
+			db.close();
+		    });
+		});
+	    }else{
+	       res.redirect('/ilogin.html?v=false&u=invalid');
+	   }
+	}catch(er){
+            fn.c(er)
+	}	
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Loadmenu request
+app.post('/loadmenu', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.c(`post:${pathname}`);
+    
+    try{
+	
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		var uhost = properties.get('udatabase.host');
+		var uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+		
+		var panelid = req.body.panelid;
+		var langs = req.body.lang;
+
+		fn.c("langs:"+langs)
+		fn.c('urlm:'+urlm)
+		fn.c("panelid:"+panelid)
+
+		
+		fn.c(`variable urlm ${urlm} database ${udatabase}`)
+		
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+		    if (err) throw err;
+
+		    var dbo = db.db(udatabase);
+		    dbo.collection("s_menu").find({name:panelid, lang:langs}).sort({"order":1}).toArray(function(err, result) {
+
+			if (err) throw er;
+			res.send(result);
+			db.close();
+		    });
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Exit request
+app.post('/exit', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.cl();
+    fn.c(`post:${pathname}...`);
+    
+    try{
+
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let orgid = req.session.up.orgid;
+		let urlm = `${uhost}${uport}`;
+		
+		//send the update sentence to db to set minus one user to customer
+		var q = `select maxuser, nuser from public.s_system where id='${orgid}'`;
+
+		db.query(q, function(r){
+
+		    fn.c(r.rows)
+		    
+		    var mu = r.rows[0].maxuser;
+		    var cu = r.rows[0].nuser;
+		    var nu = cu - 1;
+		    
+		    if (cu <= mu){
+			var q = `update public.s_system set nuser='${nu}' where id='${orgid}'`
+			db.query(q, function(r){
+
+			    req.session.destroy(function(err){
+
+				fn.c('sesion finalizada correctamente...');
+
+				numUser--;
+				
+				orgid = 0;
+				isloguser = false;
+
+				res.send(r);
+			    })
+			})
+		    }else{
+			fn.c('entra al else y no libera la licencia');
+		    }
+		})
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	res.send('{"e":"2"}');
+	fn.c(Error);
+    }
+});
+
+//add new process to mongodb
+app.post('/addrecordmongo', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+
+    try{
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    var idrec;
+		    var langf;
+		    
+		    !!req.body.collection? collection=req.body.collection:collection="";
+    		    !!req.body.jsonstring? jsonstring=req.body.jsonstring:jsonstring="";
+
+		    var jsonInsert = JSON.parse(jsonstring);
+
+		    if (jsonInsert && collection){
+
+			fn.c("inserting a new record: "+ jsonstring);
+			//insert new record
+			try{
+			    dbo.collection(collection).insertOne(jsonInsert, (err, result) => {
+				if (err){
+				    res.send({
+					'error':'AN error has ocurred'
+				    });
+				    
+				}else{
+				    res.send(result.ops[0]);
+				}
+			    });
+			}catch(e){
+			    fn.c(e);
+			}
+			
+			//update e22xisting record	
+		    }else{
+			var jsonUpdate ={_id:new mongodb.ObjectID(idrec)}
+			fn.c("Entra a actualizar registro");
+
+			try{
+			    //remove _id property in order to update based on the body sentence
+			    delete jsonInsert._id;
+			    //add _id value
+
+			    fn.c("jsonUpdate");
+			    fn.c(jsonUpdate);
+			    
+			    fn.c("jsonInsert");
+			    fn.c(jsonInsert);
+			    
+			    dbo.collection(collection).updateOne(jsonUpdate, {$set: jsonInsert});
+			    
+			}catch(e){
+			    fn.c(e);
+			}
+		    }
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//Saveform request
+app.post('/saveform', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    
+    try{
+	try{
+	    let orgid = req.session.up.orgid
+	    
+            //esta logueado sino enviar al login
+            if(orgid>0){
+
+		fn.v(req.session, res);
+
+		let uhost = properties.get('udatabase.host');
+		let uport = properties.get('udatabase.port');
+		let udatabase = req.session.up.udatabase;
+		let urlm = `${uhost}${uport}`;
+
+		mongoclient.connect(urlm, {useNewUrlParser:true}, function(err, db) {
+
+		    if (err) throw err;
+		    var dbo = db.db(udatabase);
+		    var idrec;
+
+		    !!req.body.id? idrec=req.body.id:idrec="";
+		    !!req.body.collection? collection=req.body.collection:collection="";
+    		    !!req.body.jsonString? jsonString=decodeURIComponent(req.body.jsonString):jsonString="";
+
+		    try{
+			fn.c('jsonString');
+			fn.c(jsonString);
+			var jsonInsert = JSON.parse(jsonString);
+			
+		    }catch(e){
+			fn.c(e);
+		    }
+
+		    if (!idrec){
+			fn.c("Entra a nuevo registro");
+			
+			//insert new record
+			try{
+			    dbo.collection(collection).find(jsonInsert).toArray(function(err, result) {
+				if (err) throw err;
+
+				fn.c('result busqueda previa a ingreso')
+				fn.c(result);
+
+				//existe un duplicado del registro que se pretende ingresar
+				if(result.length > 0){
+				    res.send('{"e":"3", "m":"the record you are trying to insert already exists, please edit the fields"}');
+				}else{
+				    dbo.collection(collection).insertOne(jsonInsert, (err, result) => {
+					if (err){
+					    res.send({
+						'error':'AN error has ocurred'
+					    });
+					}else{
+					    res.send(result.ops[0]);
+					}
+				    });
+				}
+			    });		    
+			}catch(e){
+			    fn.c(e);
+			}
+
+			//update existing record	
+		    }else{
+			
+			try{
+			    
+			    var jsonUpdate ={_id:new mongodb.ObjectID(idrec)}
+			    fn.c("Entra a actualizar registro");
+
+			    //remove _id property in order to update based on the body sentence
+			    delete jsonInsert._id;
+			    //add _id value
+
+			    fn.c("jsonUpdate");
+			    fn.c(jsonUpdate);
+			    
+			    fn.c("jsonInsert");
+			    fn.c(jsonInsert);
+			    
+			    let r = dbo.collection(collection).updateOne(jsonUpdate, {$set: jsonInsert});
+
+			    res.send(r);
+			    
+			}catch(e){
+			    fn.c(e);
+			}
+		    }
+		});
+	    }else{
+		res.redirect('/ilogin.html?v=false&u=invalid');
+	    }
+	}catch(er){
+            fn.c(er)
+	}
+    }catch(Error){
+	fn.c(Error);
+	res.send('{"e":"1"}');
+    }	    
+});
+
+//response translation with dbname translation customized file
+app.get('/translations/translation.js', function(req, res){
+
+    try{
+	fn.c('entra a cargar translations')
+	
+	var pathname = url.parse(req.url).pathname;
+	fn.c('post method:'+pathname);
+	let orgid = req.session.up.orgid
+	
+        //esta logueado sino enviar al login
+        if(orgid>0){
+	    let dbname = req.session.up.udatabase
+	    fn.c(`entra a orgid mayor que cero para translations...${dbname}`)
+	    res.sendFile(__dirname + `/translations/${dbname}.js`);
+	}
+    }catch(er){
+	res.sendFile(__dirname + '/translations/minghos.js');
+	fn.c(er)
+    }
+});
+
+app.use('/js', express.static(__dirname + '/js'));
+
+app.use('/socket.io.js', express.static(__dirname + '/socket.io.js'));
+
+app.use('/css', express.static(__dirname + '/css'));
+
+//app.use('/translations', express.static(__dirname + '/translations'));
+
+app.use('/jasmine', express.static(__dirname + '/jasmine'));
+
+app.use('/images', express.static(__dirname + '/images'));
+
+app.use('/pdf', express.static(__dirname + '/pdf'));
+
+app.get('/indexc.html', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.c('post method:'+pathname);
+    res.sendFile(__dirname + '/indexc.html');
+});
+
+app.get('/ilogin.html', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.c('post method:'+pathname);
+    res.sendFile(__dirname + '/ilogin.html');
+});
+
+app.get('/recover.html', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.c('post method:'+pathname);
+    res.sendFile(__dirname + '/recover.html');
+});
+
+app.get('/development.html', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.c('post method:'+pathname);
+    res.sendFile(__dirname + '/development.html');
+});
+
+app.get('*', function(req, res){
+    var pathname = url.parse(req.url).pathname;
+    fn.c('post method:'+pathname);
+    res.sendFile(__dirname + '/index.html');
+});
+
+//Favicon request
+app.get('favicon.ico', function(req, res){
+    res.sendFile(__dirname + '/images/favicon.ico');
+});
+
+app.listen(port, function(){
+    fn.c(`${nameApp} listening on port: ${port}`);
+})

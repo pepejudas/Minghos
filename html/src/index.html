@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title>Minghos</title>
+  </head>
+  <link rel="stylesheet" href="/css/style1.css">
+  <link rel="icon" href="images/favicon.ico">
+  <script>var dL='es'</script>
+  <script type="text/javascript" src="/js/frameworkm.js"></script>
+  <body>
+    <div class='logocontainer'>
+      <img src='images/logo.png' width='30px'>
+      <h1>Minghos</h1>
+    </div>
+    <div class='container'>
+      <form action='registry' method='POST' onsubmmit='return checkForm();'>
+	<div class='login'>
+	  <div><select name='languaje' id='languaje'><option value='es' selected='selected'>Espa&ntilde;ol</option><option value='en'>English</option><option value='fr'>Francais</option><option value='pr'>Portugues</option></select></div></br>
+	  <div id='contenedor'>
+	  </div>
+	  <span id='divcaptcha'></span><input type='text' id='captchans'  style='padding:10px' value='' required /></br>
+          <input type='submit' value='{{registro}}' id='loginbutton' disabled='disabled'/>
+          <div id='login2'></div>
+	  <br/>
+	</div>
+      </form>
+    </div>
+  </body>
+  <script type="text/javascript" src="/js/index.js"></script>
+  <script type="text/javascript" src="/js/captcha.js"></script>
+  <script type="text/javascript" src="/js/indexini.js"></script>
+</html>

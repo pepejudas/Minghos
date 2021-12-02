@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>Minghos</title>
+  </head>
+  <link rel="stylesheet" href="/css/style1.css">
+  <script type="text/javascript" src="/js/captcha.js"></script>
+  <body>
+    <h1>Minghos</h1>
+ <div class="container">
+    <form action='login' method='POST'>
+      <hr/><div class='login'>
+	User:<input name='user' type='text' id='user' style='padding:10px' autofocus  required /><br/>
+	Password:<input name='password' type='password' id='password' style='padding:10px' required /><br/>
+	<div id='divcaptcha'></div>
+	<input type='submit' value='Login' id='loginbutton' disabled='disabled'/>
+	<div id='login2'></div>
+	<br/>
+	<div><a href='recover.html'>Forgot Password</a></div>
+      </div>
+    </form>
+    </div>
+    <script>
+      var url_string = window.location;
+      var url = new URL(url_string);
+      var v = url.searchParams.get("v");
+      var vemail = url.searchParams.get("vemail");
+      var semail = url.searchParams.get("semail");
+      var sm = url.searchParams.get("m");
+      
+      var debugmode = true;
+      var ipuser;
+
+      if (v){
+      document.getElementById('login2').innerHTML = '<br/>Invalid User/Password';
+      }
+      if (vemail){
+      document.getElementById('login2').innerHTML = '<br/>Invalid Email Account'; 
+      }
+      if (semail){
+      document.getElementById('login2').innerHTML = '<br/>The user/password has been sent to ' + semail; 
+      }
+      if(sm){
+      document.getElementById('login2').innerHTML = `<br/>${sm} `;
+      }
+
+      var url_string = window.location;
+      var url = new URL(url_string);
+      var v = url.searchParams.get("v");
+      var emf = document.getElementById('login2');
+      var e = document.getElementById('user');
+      var p = document.getElementById('password');
+      
+      var qC;
+      
+      try{
+      //question captcha
+      qC = cA.gRQ();
+
+      document.getElementById('divcaptcha').innerHTML = qC.q + " <input type='text' id='captchans' value=''/>";
+      }catch(e){
+      console.log(e);
+      }
+
+      //to verify the captcha answer
+      try{
+      var ans = document.getElementById('captchans');
+      var subtn = document.getElementById('loginbutton');
+      
+      ans.addEventListener("change", function(){
+
+      if(e.value && p.value && ans.value == qC.a){
+      subtn.disabled=false;
+      }
+      });
+      }catch(e){
+      console.log(e);
+      }
+    </script>
+  </body>
+</html>

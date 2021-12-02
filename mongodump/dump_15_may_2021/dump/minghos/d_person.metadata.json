@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_"},{"v":2,"key":{"_fts":"text","_ftsx":1},"name":"textindex","language_override":"language","weights":{"address":1,"apellido":1,"birthdate":1,"celular":1,"nodocumento":1,"nombre":1,"visibility":1},"default_language":"english","textIndexVersion":3}],"uuid":"4aaeec1edb004c5299ea46c6d643238f"}

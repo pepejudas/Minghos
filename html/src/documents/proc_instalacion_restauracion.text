@@ -1,0 +1,31 @@
+Titulo:		Documento para establecer el procedimiento de instalacion/migracion del sistema Minghos
+
+Objetivo:	Este documento pretende establecer el procedimiento o serie de pasos para la instalacion y migracion del sistema minghos en un entorno completamente nuevo, con el objetivo de evitar la perdida de informacion al momento de migrar, formatear o actualizar el sistema operativo de las maquinas que hospedan la aplicacion, indicando claramente los pasos que deben realizarse, en el mediano plazo es importante que este sea sustituido por un script/linux, que haga el procedimiento de forma autonoma y sin omitir ningun paso de forma automatica pasando por la migracion subida descarga e instalacion de una copia del sistema.
+
+
+Etapas:
+		a. enviar un comunicado previamente a los usuarios de una fecha de corte de un par de horas para realizar el procedimiento, preferiblemente en horas de la madrugada correspondiente al lugar donde se presta el servicio o alguna hora en la que menos se use el servicio.
+		b. tomar una copia de cada base de datos del sistema:
+		   a. primero tomar el backup de postgres completo de la base de datos minghos.
+		   b. segundo tomar el backup de todas las bases de datos creadas en mongodb, teniendo en cuenta que cada una de estas es copia de minghos la cual es la que contiene la informacion original de formularios y demas configuracion inicial del sistema.
+		   c. tomar una copia de todo el codigo fuente de la aplicacion en este caso se encuentra en la carpeta /windows/Minghos
+		   d. efectua el proceso de instalacion en la nueva maquina host:
+		      1. instalacion de sistema operativo
+		      2. instalacion de base de datos postgres
+		      3. instalacion de base de datos mongodb
+		      4. instalacion de nodejs
+		      5. instalacion de nodemon
+		      6. instalacion de python3
+		      7. instalacion de pip3
+		      8. instalacion de pgadmin4
+		      9. instalacion de robo3t
+		      10 instalacion de prerequisitos m5
+		      	 a. sudo pip3 install psycopg2-binary
+
+		  c. Restauracion de bases de datos:
+		     1. restauracion de base de datos postgres.
+		     2. restauracion de base de datos mongodb.
+
+
+	e. se efectuo una modificacion al codigo de mongodb archivo node_modules/mongodb/lib/utils.js linea 691 se comenta el lanzamiento del error y se loguea en consola para evitar que se finalice el proceso principal y termine la aplicacion.
+	f. se efectua una modificacion al codigo de mongodb archivo node_modules/mongodb/lib/utils.js linea 106 se envia el error a la consola para evitar que la aplicacion se cierre por completo.
